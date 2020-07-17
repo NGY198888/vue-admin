@@ -1,5 +1,11 @@
 # vue-admin
-
+> vue全家桶脚手架，只是一个初始化架构,集成了
+> vue
+> vuex
+> vue-router
+> element-ui
+> axios
+> vue-i18n
 ## Project setup
 ```
 yarn install
