@@ -1,0 +1,24 @@
+.login{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:  #E8D098;
+    .card{
+        width: 500px;
+        height: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .head{
+            font-size: 30px;
+            line-height: 30px;
+        }
+        .input{
+            width: 300px;
+        }
+    }
+  }
+ 

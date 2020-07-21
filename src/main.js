@@ -4,14 +4,14 @@ import App from './App.vue'
 import store from './store'
 
 
-//使用axios
-import Http from './utils/request';
+import 'reset-css';
 
 import router from './router';
 
 //使用element-ui库
 import Element from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';//element全局样式
+import   'rest';
 
 //国际化
 import VueI18n from 'vue-i18n'
@@ -35,7 +35,7 @@ const i18n = new VueI18n({
 })
 
 Vue.use(Element, { 
-   size: 'small',
+   size: 'medium',
    zIndex: 3000 ,
    i18n: (key, value) => i18n.t(key, value)
   });
@@ -43,7 +43,6 @@ Vue.use(Element, {
 
 // Vue.prototype.$message = Element.Message;
 Vue.config.productionTip = false
-Http.get('/site')
 new Vue({
   render: h => h(App),
   store,

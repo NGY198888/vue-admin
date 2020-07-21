@@ -2,6 +2,7 @@ import axios from 'axios';
 import Vue from 'vue'
 import  store from "../store";
 import  types from "../store/types";
+import _ from 'lodash';
 const API_URI = process.env.VUE_APP_API_URL || '/admin/api/'
 global.API_URI = API_URI
 axios.defaults.baseURL = API_URI
@@ -24,7 +25,12 @@ axios.interceptors.response.use( (response)=> {
  ({response}) =>{
     console.log("response err",response);
     store.commit(types.STOP_LOADING)
-    Vue.prototype.$message.error(response.statusText);
+    let data =response.data;
+    let msg = _.get(data, 'message', _.get(data, 'error.message', _.get(data, '0.message',_.get(response, 'statusText'))))
+    if (Array.isArray(msg)) {
+      msg = msg[0].message
+    }
+    Vue.prototype.$message.error(msg);
     switch(response.status){
         case 401:
             //未授权，去登录
