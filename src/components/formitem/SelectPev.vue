@@ -4,7 +4,6 @@
             :placeholder="field.name"
             clearable
             filterable
-            multiple
             @change="change"
             >
             <el-option :label="kv.txt" :value="kv.id" v-for="kv in field.data" :key="kv.id"></el-option>
@@ -15,14 +14,14 @@
 <script>
 // import { mapState } from "vuex";
 export default {
-  name: 'MultSelectPev',
+  name: 'SelectPev',
   model:{
       prop:'val',
       event:'change'
   },
   props: {
      field:Object,
-     val:[Array,null]
+     val:[String,Number,Boolean,null]
   },
   methods:{
        change(value){

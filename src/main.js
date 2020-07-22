@@ -11,6 +11,7 @@ import router from './router';
 //使用element-ui库
 import Element from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';//element全局样式
+import  '@/assets/fonts/style.css';
 import   'rest';
 
 //国际化

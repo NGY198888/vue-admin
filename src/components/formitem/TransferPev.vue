@@ -1,28 +1,25 @@
 <template>
     <el-form-item :label="field.name">
-            <el-select :value="val" 
-            :placeholder="field.name"
-            clearable
-            filterable
-            multiple
+           <el-switch
+            :value="val"
             @change="change"
-            >
-            <el-option :label="kv.txt" :value="kv.id" v-for="kv in field.data" :key="kv.id"></el-option>
-            </el-select>
+            active-color="#13ce66"
+            inactive-color="#ff4949">
+            </el-switch>
     </el-form-item>
 </template>
 
 <script>
 // import { mapState } from "vuex";
 export default {
-  name: 'MultSelectPev',
+  name: 'SwitchPev',
   model:{
       prop:'val',
       event:'change'
   },
   props: {
      field:Object,
-     val:[Array,null]
+     val:[String,Number,Boolean,null],
   },
   methods:{
        change(value){

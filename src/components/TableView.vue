@@ -1,6 +1,6 @@
 <template>
     <div class='table-v'>
-        <div class="table-search">
+        <div class="table-search" style="width:100%">
             <table-search />
         </div>
         <el-table :data="tableData"
@@ -13,9 +13,8 @@
             <el-table-column prop="address" label="地址">
             </el-table-column>
         </el-table>
-       <div
-       class="table-pagination"
-       ><table-pagination
+       <div class="table-pagination">
+       <table-pagination
        :total="total"
        :pageSizes="pageSizes"
        @sizeChange="sizeChange"
@@ -30,6 +29,7 @@
 // import { mapState } from "vuex";
 import TableSearch from './TableSearch';
 import TablePagination from './TablePagination';
+import   '@/styles/TableView.scss';
 export default {
   name: 'TableView',
   props: {
@@ -43,6 +43,8 @@ export default {
     return {
       total:0,
       pageSizes:20,
+      tableSearchFields:[],
+      tableFields:[],
       tableData: [],
     }
   },
@@ -59,21 +61,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  .table-v{
-      display: flex;
-      flex-direction: column;
-  }
-  /* .table-search{
-
-  } */
-  .table-table{
-         flex: 1;
-  }
-  /* .table-pagination{
-
-  } */
-
-</style>

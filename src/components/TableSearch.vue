@@ -1,7 +1,10 @@
 <template>
     <el-form :inline="true"  class="table-tool-form">
        <template  v-for="field in fields" >
-           <text-pev :field="field" v-model="field.val"  :key="field.field" v-if="field.type=='text'" />
+           <text-pev :field="field" v-model="field.val"  :key="field.field" v-if="['password','number','text','textarea' ].includes(field.type)" />
+           <ColorPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='color'" /> 
+           <RatePev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='rate'" /> 
+            <RadioPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='radio'" /> 
            <SelectPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='select'" /> 
            <MultSelectPev :field="field" v-model="field.val" :key="field.field"  v-else-if="field.type=='mult_select'"  /> 
            <DateTimePev :field="field" v-model="field.val" :key="field.field" v-else-if="['year','month','date','week','datetime','datetimerange','daterange','dates'].includes(field.type)"  /> 
@@ -23,6 +26,9 @@ import MultSelectPev from './formitem/MultSelectPev';
 import DateTimePev from './formitem/DateTimePev';
 import SwitchPev from './formitem/SwitchPev';
 import CheckboxGroupPev from './formitem/CheckboxGroupPev';
+import ColorPev from './formitem/ColorPev';
+import RatePev from './formitem/RatePev';
+import RadioPev from './formitem/RadioPev';
 export default {
   name: 'TableSearch',
   props: {
@@ -35,18 +41,38 @@ export default {
      DateTimePev,
      SwitchPev,
      CheckboxGroupPev,
+     ColorPev,
+     RatePev,
+     RadioPev,
   },
   data () {
     return {
      
       form:{},
       fields:[
-        // {
-        //   name:'测试',
-        //   type:'text',
-        //   val:'111',
-        //   field:'test'
-        // },
+        {
+          name:'测试',
+          type:'radio',
+          field:'test',
+          data:[
+            {
+             id:'a',
+             txt:'1'
+            },
+            {
+             id:'a2',
+             txt:'12'
+            },
+            {
+             id:'a3',
+             txt:'13'
+            },
+            {
+             id:'a4',
+             txt:'15'
+            },
+          ],
+        },
         // {
         //   name:'测试2',
         //   type:'select',
@@ -71,66 +97,66 @@ export default {
         //     },
         //   ],
         // },
-         {
-          name:'测试3',
-          type:'mult_select',
-          field:'test3',
-          val:['a','a2'],
-          data:[
-            {
-             val:'a',
-             txt:'1'
-            },
-            {
-             val:'a2',
-             txt:'12'
-            },
-            {
-             val:'a3',
-             txt:'13'
-            },
-            {
-             val:'a4',
-             txt:'15'
-            },
-          ],
-        },
-        //时间控件
-         {
-          name:'测试',
-          type:'dates',
-          field:'t1'
-        },
-        {
-          name:'测试2',
-          type:'date',
-          field:'t2'
-        },
-        {
-          name:'测试3',
-          type:'week',
-          field:'t3'
-        },
-        {
-          name:'测试4',
-          type:'daterange',
-          field:'t4'
-        },
-         {
-          name:'测试5',
-          type:'datetime',
-          field:'t5'
-        },
-         {
-          name:'测试45',
-          type:'datetimerange',
-          field:'t45'
-        },
-        {
-          name:'测试5',
-          type:'switch',
-          field:'t5'
-        },
+        //  {
+        //   name:'测试3',
+        //   type:'mult_select',
+        //   field:'test3',
+        //   val:['a','a2'],
+        //   data:[
+        //     {
+        //      val:'a',
+        //      txt:'1'
+        //     },
+        //     {
+        //      val:'a2',
+        //      txt:'12'
+        //     },
+        //     {
+        //      val:'a3',
+        //      txt:'13'
+        //     },
+        //     {
+        //      val:'a4',
+        //      txt:'15'
+        //     },
+        //   ],
+        // },
+        // //时间控件
+        //  {
+        //   name:'测试',
+        //   type:'dates',
+        //   field:'t1'
+        // },
+        // {
+        //   name:'测试2',
+        //   type:'date',
+        //   field:'t2'
+        // },
+        // {
+        //   name:'测试3',
+        //   type:'week',
+        //   field:'t3'
+        // },
+        // {
+        //   name:'测试4',
+        //   type:'daterange',
+        //   field:'t4'
+        // },
+        //  {
+        //   name:'测试5',
+        //   type:'datetime',
+        //   field:'t5'
+        // },
+        //  {
+        //   name:'测试45',
+        //   type:'datetimerange',
+        //   field:'t45'
+        // },
+        // {
+        //   name:'测试5',
+        //   type:'switch',
+        //   field:'t5'
+        // },
         {
           name:'测试3',
           type:'check_group',
@@ -157,6 +183,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .table-tool-form{
+       width: calc(100% - 20px);
+       padding:0 10px;
        text-align: left;
   }
 </style>

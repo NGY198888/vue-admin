@@ -7,7 +7,7 @@ const state = {
 
 // getters
 const getters = {
-  
+
 }
 
 // actions

@@ -3,9 +3,12 @@ import Router from "vue-router";
 
 //引入layout级别的组件
 // import HelloWorld from '../components/HelloWorld';
-import store from '../store';
+// import store from '../store';
 import LoginView from 'views/LoginView';
 import AdminView from 'views/AdminView';
+import NoFoundView from 'views/NoFoundView';
+
+import LocalStore from '@/utils/LocalStore';
 
 Vue.use(Router);
 
@@ -32,12 +35,17 @@ const router = new Router({
         path: "/",
         component: AdminView,
         children: [ ]
+      },
+      {
+        path: "*",
+        component: NoFoundView,
+        children: [ ]
       }
     ]
   });
   //拦截
   router.beforeEach((to, from, next) => {
-    if (!store.state.auth.token && !to.meta.isPublic) {
+    if (! LocalStore.get("token",null) && !to.meta.isPublic) {
       return next({path: '/login'})
     }
     next()
