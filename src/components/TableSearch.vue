@@ -4,7 +4,8 @@
            <text-pev :field="field" v-model="field.val"  :key="field.field" v-if="['password','number','text','textarea' ].includes(field.type)" />
            <ColorPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='color'" /> 
            <RatePev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='rate'" /> 
-            <RadioPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='radio'" /> 
+           <RadioPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='radio'" /> 
+           <UploadPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='file'" /> 
            <SelectPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='select'" /> 
            <MultSelectPev :field="field" v-model="field.val" :key="field.field"  v-else-if="field.type=='mult_select'"  /> 
            <DateTimePev :field="field" v-model="field.val" :key="field.field" v-else-if="['year','month','date','week','datetime','datetimerange','daterange','dates'].includes(field.type)"  /> 
@@ -29,6 +30,7 @@ import CheckboxGroupPev from './formitem/CheckboxGroupPev';
 import ColorPev from './formitem/ColorPev';
 import RatePev from './formitem/RatePev';
 import RadioPev from './formitem/RadioPev';
+import UploadPev from './formitem/UploadPev';
 export default {
   name: 'TableSearch',
   props: {
@@ -44,12 +46,18 @@ export default {
      ColorPev,
      RatePev,
      RadioPev,
+     UploadPev,
   },
   data () {
     return {
      
       form:{},
       fields:[
+         {
+          name:'测试',
+          type:'file',
+          field:'t1'
+        },
         {
           name:'测试',
           type:'radio',

@@ -1,0 +1,3 @@
+VUE_APP_API_URL=http://localhost:3334443/admin/api/
+UPLOAD_URL=http://localhost:3333444/admin/api/upload
+BASE_URL=///
