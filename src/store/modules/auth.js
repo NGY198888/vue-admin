@@ -23,6 +23,11 @@ const mutations = {
      LocalStore.set("token",token);
      router.push("/")
   },
+  [types.auth_clean_token] (state) {
+    state.token=null;
+    LocalStore.set("token",null);
+    router.push("/login")
+ },
 }
 
 export default {

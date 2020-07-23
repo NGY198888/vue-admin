@@ -19,16 +19,17 @@
       </el-header>
       <el-main class="main">
         <el-card shadow="hover" class="table_warp">
-          <el-tabs
+          <router-view></router-view>
+          <!-- <el-tabs
            type="card"
            closable
           >
             <el-tab-pane>
               <span slot="label"><i class="el-icon-date"></i> 我的行程</span>
-               <TableView />
+               <router-view></router-view>
             </el-tab-pane>
             <el-tab-pane label="消息中心">消息中心</el-tab-pane>
-          </el-tabs>
+          </el-tabs> -->
         </el-card>
       </el-main>
       <!-- <el-footer>Footer</el-footer> -->
@@ -38,7 +39,7 @@
 
 <script>
 // import { mapState } from "vuex";
-import TableView from '@/components/TableView';
+// import TableView from '@/components/TableView';
 import Menu from './admin/Menu';
 import   '@/styles/admin.scss';
 export default {
@@ -47,7 +48,7 @@ export default {
  
   },
   components:{
-   TableView,
+  //  TableView,
    Menu,
   },
   data () {

@@ -135,21 +135,21 @@ export default {
         //   type:'dates',
         //   field:'t1'
         // },
-        // {
-        //   name:'测试2',
-        //   type:'date',
-        //   field:'t2'
-        // },
-        // {
-        //   name:'测试3',
-        //   type:'week',
-        //   field:'t3'
-        // },
-        // {
-        //   name:'测试4',
-        //   type:'daterange',
-        //   field:'t4'
-        // },
+        {
+          name:'测试2',
+          type:'month',
+          field:'t2'
+        },
+        {
+          name:'测试3',
+          type:'week',
+          field:'t3'
+        },
+        {
+          name:'测试4',
+          type:'daterange',
+          field:'t4'
+        },
         //  {
         //   name:'测试5',
         //   type:'datetime',

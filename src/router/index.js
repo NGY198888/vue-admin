@@ -5,9 +5,11 @@ import Router from "vue-router";
 // import HelloWorld from '../components/HelloWorld';
 // import store from '../store';
 import LoginView from 'views/LoginView';
+import LogoutView from 'views/LogoutView';
+import WebView from 'views/WebView';
 import AdminView from 'views/AdminView';
 import NoFoundView from 'views/NoFoundView';
-
+import TableView from '@/components/TableView';
 import LocalStore from '@/utils/LocalStore';
 
 Vue.use(Router);
@@ -32,14 +34,34 @@ const router = new Router({
     //     component: Login,
     //   },
       {
-        path: "/",
-        component: AdminView,
-        children: [ ]
+         path: "/",
+         component: AdminView,
+         children: [ 
+          {
+            path: "/rest/:resource",
+            component: TableView, 
+          },
+          {
+            path: "/form/:resource",
+            component: NoFoundView, 
+          },
+          {
+            path: "/logout",
+            component: LogoutView, 
+          },
+          {
+            path: "/webview/:url",//嵌套外部网址
+            component: WebView, 
+          },
+          {
+            path: "*",
+            component: NoFoundView,
+          }
+        ]
       },
       {
         path: "*",
         component: NoFoundView,
-        children: [ ]
       }
     ]
   });
