@@ -6,13 +6,13 @@
     </el-aside>
     <el-container>
       <el-header class="header">
-          <span style="margin-right: 15px">王小虎</span>
-          <el-dropdown>
+          <span style="margin-right: 50px">{{user.username}}</span>
+          <el-dropdown @command="handleCommand">
             <i class="el-icon-setting" style="margin-right: 15px"></i>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>查看</el-dropdown-item>
-              <el-dropdown-item>新增</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-user-solid" command="settingUser">账号设置</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-eleme" command="logout">退出系统</el-dropdown-item>
+              <!-- <el-dropdown-item>删除</el-dropdown-item> -->
             </el-dropdown-menu>
           </el-dropdown>
           
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
+import { mapState } from "vuex";
 // import TableView from '@/components/TableView';
 import Menu from './admin/Menu';
 import   '@/styles/admin.scss';
@@ -57,10 +57,21 @@ export default {
     }
   },
   methods:{
-  
+      handleCommand(command) {
+           switch(command){
+             case "settingUser":
+               this.$router.push("/form/user.setting");
+               break;
+             case "logout":
+               this.$router.push("/logout");
+               break;
+           }
+      }
   },
   computed: {
-    
+     ...mapState({
+        user:state=>state.user.user
+  })
   }
 }
 </script>
