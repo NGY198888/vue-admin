@@ -10,6 +10,7 @@ import WebView from 'views/WebView';
 import AdminView from 'views/AdminView';
 import NoFoundView from 'views/NoFoundView';
 import TableView from '@/components/TableView';
+import FormView from '@/components/FormView';
 import LocalStore from '@/utils/LocalStore';
 
 Vue.use(Router);
@@ -43,7 +44,7 @@ const router = new Router({
           },
           {
             path: "/form/:resource",
-            component: NoFoundView, 
+            component: FormView, 
           },
           {
             path: "/logout",
