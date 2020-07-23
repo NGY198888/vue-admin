@@ -1,7 +1,8 @@
 <template>
    <el-container class="admin_view">
-    <el-aside width="200px">
-      
+    <el-aside width="250px" class="aside">
+      <div class="site_name">管理系统</div>
+      <Menu />
     </el-aside>
     <el-container>
       <el-header class="header">
@@ -38,6 +39,7 @@
 <script>
 // import { mapState } from "vuex";
 import TableView from '@/components/TableView';
+import Menu from './admin/Menu';
 import   '@/styles/admin.scss';
 export default {
   name: 'AdminView',
@@ -46,6 +48,7 @@ export default {
   },
   components:{
    TableView,
+   Menu,
   },
   data () {
     return {

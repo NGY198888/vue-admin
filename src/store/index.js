@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import types from './types';
 import auth from './modules/auth'
 import user from './modules/user'
+import site from './modules/site'
 // import cart from './modules/cart'
 // import products from './modules/products'
 // import createLogger from '../../../src/plugins/logger'
@@ -13,6 +14,7 @@ export default new Vuex.Store({
   modules: {
    user,
    auth,
+   site,
   },
   state: {
     loading: false,
