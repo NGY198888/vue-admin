@@ -2,6 +2,7 @@
    <div>
        <el-pagination
         background
+        @current-change="currentChange"
         layout="sizes,prev, pager, next,total"
         :page-size="pageSizes"
         :total="total">
@@ -29,7 +30,7 @@ export default {
     ["size-change"](newPageSize){
        this.$emit('sizeChange',newPageSize)
     },
-    currentPage(currentPage){
+    currentChange(currentPage){
         this.$emit('currentChange',currentPage)
     },
     ['prev-click'](currentPage){

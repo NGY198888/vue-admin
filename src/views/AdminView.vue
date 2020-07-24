@@ -1,7 +1,10 @@
 <template>
    <el-container class="admin_view">
     <el-aside width="250px" class="aside">
-      <div class="site_name">管理系统</div>
+      <div class="site_name">
+        <img :src="BASE_URL+'favicon.ico'" style="margin-right:8px;" />
+        管理系统
+        </div>
       <Menu />
     </el-aside>
     <el-container>
@@ -63,7 +66,10 @@ export default {
   computed: {
      ...mapState({
         user:state=>state.user.user
-  })
+     }),
+     BASE_URL(){
+         return process.env.BASE_URL
+     }
   }
 }
 </script>

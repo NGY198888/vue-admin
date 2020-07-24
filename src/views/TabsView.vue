@@ -15,7 +15,7 @@
                 :name="tab.route"></el-tab-pane>
         </el-tabs>
         <div class="content_warp" :style="tabs.length>0?'height: calc(100% - 55px);':'height: 100%;'">
-            <router-view></router-view>
+            <router-view :key="tabKey"></router-view>
         </div>  
 </div>
     
@@ -51,7 +51,10 @@ export default {
   computed: {
       ...mapState({
           tabs:state=>state.site.tabs
-      })
+      }),
+      tabKey(){
+          return this.$route.params.resource
+      }
   }
 }
 </script>

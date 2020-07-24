@@ -14,7 +14,8 @@
        </template> 
         
         <el-form-item>
-            <el-button type="primary" @click="onSubmit">查询</el-button>
+            <el-button icon="el-icon-search"  type="primary" @click="onSubmit"  size="mini">查询</el-button>
+            <!-- <el-button type="primary" @click="onSubmit">查询</el-button> -->
         </el-form-item>
     </el-form>
 </template>
@@ -34,7 +35,7 @@ import UploadPev from './formitem/UploadPev';
 export default {
   name: 'TableSearch',
   props: {
-    //  fields:Array
+     fields:[Array,Object,null]
   },
   components:{
      TextPev,
@@ -52,127 +53,127 @@ export default {
     return {
      
       form:{},
-      fields:[
-         {
-          name:'测试',
-          type:'file',
-          field:'t1'
-        },
-        {
-          name:'测试',
-          type:'radio',
-          field:'test',
-          data:[
-            {
-             id:'a',
-             txt:'1'
-            },
-            {
-             id:'a2',
-             txt:'12'
-            },
-            {
-             id:'a3',
-             txt:'13'
-            },
-            {
-             id:'a4',
-             txt:'15'
-            },
-          ],
-        },
-        // {
-        //   name:'测试2',
-        //   type:'select',
-        //   field:'test2',
-        //   val:'a',
-        //   data:[
-        //     {
-        //      val:'a',
-        //      txt:'1'
-        //     },
-        //     {
-        //      val:'a2',
-        //      txt:'12'
-        //     },
-        //     {
-        //      val:'a3',
-        //      txt:'13'
-        //     },
-        //     {
-        //      val:'a4',
-        //      txt:'15'
-        //     },
-        //   ],
-        // },
-        //  {
-        //   name:'测试3',
-        //   type:'mult_select',
-        //   field:'test3',
-        //   val:['a','a2'],
-        //   data:[
-        //     {
-        //      val:'a',
-        //      txt:'1'
-        //     },
-        //     {
-        //      val:'a2',
-        //      txt:'12'
-        //     },
-        //     {
-        //      val:'a3',
-        //      txt:'13'
-        //     },
-        //     {
-        //      val:'a4',
-        //      txt:'15'
-        //     },
-        //   ],
-        // },
-        // //时间控件
-        //  {
-        //   name:'测试',
-        //   type:'dates',
-        //   field:'t1'
-        // },
-        {
-          name:'测试2',
-          type:'month',
-          field:'t2'
-        },
-        {
-          name:'测试3',
-          type:'week',
-          field:'t3'
-        },
-        {
-          name:'测试4',
-          type:'daterange',
-          field:'t4'
-        },
-        //  {
-        //   name:'测试5',
-        //   type:'datetime',
-        //   field:'t5'
-        // },
-        //  {
-        //   name:'测试45',
-        //   type:'datetimerange',
-        //   field:'t45'
-        // },
-        // {
-        //   name:'测试5',
-        //   type:'switch',
-        //   field:'t5'
-        // },
-        {
-          name:'测试3',
-          type:'check_group',
-          field:'test3',
-          val:['111'],
-          data:['111','222','333']
-        }
-      ]
+      // fields:[
+      //   //  {
+      //   //   name:'测试',
+      //   //   type:'file',
+      //   //   field:'t1'
+      //   // },
+      //   {
+      //     name:'测试',
+      //     type:'text',
+      //     field:'test',
+      //     data:[
+      //       {
+      //        id:'a',
+      //        txt:'1'
+      //       },
+      //       {
+      //        id:'a2',
+      //        txt:'12'
+      //       },
+      //       {
+      //        id:'a3',
+      //        txt:'13'
+      //       },
+      //       {
+      //        id:'a4',
+      //        txt:'15'
+      //       },
+      //     ],
+      //   },
+      //   // {
+      //   //   name:'测试2',
+      //   //   type:'select',
+      //   //   field:'test2',
+      //   //   val:'a',
+      //   //   data:[
+      //   //     {
+      //   //      val:'a',
+      //   //      txt:'1'
+      //   //     },
+      //   //     {
+      //   //      val:'a2',
+      //   //      txt:'12'
+      //   //     },
+      //   //     {
+      //   //      val:'a3',
+      //   //      txt:'13'
+      //   //     },
+      //   //     {
+      //   //      val:'a4',
+      //   //      txt:'15'
+      //   //     },
+      //   //   ],
+      //   // },
+      //   //  {
+      //   //   name:'测试3',
+      //   //   type:'mult_select',
+      //   //   field:'test3',
+      //   //   val:['a','a2'],
+      //   //   data:[
+      //   //     {
+      //   //      val:'a',
+      //   //      txt:'1'
+      //   //     },
+      //   //     {
+      //   //      val:'a2',
+      //   //      txt:'12'
+      //   //     },
+      //   //     {
+      //   //      val:'a3',
+      //   //      txt:'13'
+      //   //     },
+      //   //     {
+      //   //      val:'a4',
+      //   //      txt:'15'
+      //   //     },
+      //   //   ],
+      //   // },
+      //   // //时间控件
+      //   //  {
+      //   //   name:'测试',
+      //   //   type:'dates',
+      //   //   field:'t1'
+      //   // },
+      //   // {
+      //   //   name:'测试2',
+      //   //   type:'month',
+      //   //   field:'t2'
+      //   // },
+      //   // {
+      //   //   name:'测试3',
+      //   //   type:'week',
+      //   //   field:'t3'
+      //   // },
+      //   // {
+      //   //   name:'测试4',
+      //   //   type:'daterange',
+      //   //   field:'t4'
+      //   // },
+      //   //  {
+      //   //   name:'测试5',
+      //   //   type:'datetime',
+      //   //   field:'t5'
+      //   // },
+      //   //  {
+      //   //   name:'测试45',
+      //   //   type:'datetimerange',
+      //   //   field:'t45'
+      //   // },
+      //   // {
+      //   //   name:'测试5',
+      //   //   type:'switch',
+      //   //   field:'t5'
+      //   // },
+      //   // {
+      //   //   name:'测试3',
+      //   //   type:'check_group',
+      //   //   field:'test3',
+      //   //   val:['111'],
+      //   //   data:['111','222','333']
+      //   // }
+      // ]
 
     }
   },
