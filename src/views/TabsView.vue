@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="tabs_warp">
         <el-tabs
             v-show="tabs.length>0"
             v-model="$route.name" 
@@ -14,7 +14,9 @@
                 :label="tab.name"
                 :name="tab.route"></el-tab-pane>
         </el-tabs>
-         <router-view></router-view>
+        <div class="content_warp" :style="tabs.length>0?'height: calc(100% - 55px);':'height: 100%;'">
+            <router-view></router-view>
+        </div>  
 </div>
     
 </template>
@@ -22,6 +24,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 import types from '@/store/types';
+import  '@/styles/TabsView.scss';
 // import { mapState } from "vuex";
 export default {
   name: 'TabsView',

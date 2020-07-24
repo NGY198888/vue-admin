@@ -15,16 +15,17 @@
         .table_warp{
              flex: 1;
              .el-card__body{
-                 height: calc(100% - 40px);
-                 .el-tabs{
-                    height: 100%;
-                    .el-tabs__content{
-                        height: calc(100% - 55px);
-                        .el-tab-pane{
-                            height: 100%;
-                        }
-                    }
-                 }
+                 height: calc(100% - 20px);
+                 padding: 10px 10px 0 10px;
+                //  .el-tabs{
+                //     height: 100%;
+                //     .el-tabs__content{
+                //         height: calc(100% - 55px);
+                //         .el-tab-pane{
+                //             height: 100%;
+                //         }
+                //     }
+                //  }
              }
         }
     }
