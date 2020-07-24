@@ -19,9 +19,10 @@ export default {
     }
   },
   methods:{
-     ...mapMutations([types.auth_clean_token])
+     ...mapMutations([types.auth_clean_token,types.site_close_all_tab])
   },
   mounted () {
+     this[types.site_close_all_tab]();
      this[types.auth_clean_token]();
     //   this.$router.replace('/login');
   }

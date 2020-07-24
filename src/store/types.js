@@ -7,4 +7,7 @@ export default {
     user_load_user:'user_login',
     site_feth_site:'site_feth_site',
     site_load_menu:'site_load_menu',
+    site_add_tab:'site_add_tab',
+    site_close_tab:'site_close_tab',
+    site_close_all_tab:'site_close_all_tab',
 }
