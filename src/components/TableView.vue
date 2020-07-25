@@ -34,13 +34,19 @@
        @sizeChange="sizeChange"
        @currentChange="currentChange"
         /></div>
-        <DialogView
+        <!-- <DialogView
         title="test"
         :needConfirm="true"
         ref="dialog"
         >
 111111111
-        </DialogView>
+        </DialogView> -->
+
+        <FormDialog
+        title="qqqq"
+        :needConfirm="true"
+        ref="dialog2"
+        > </FormDialog>
     </div>
  
 </template>
@@ -50,7 +56,9 @@
 import TableSearch from './TableSearch';
 import TablePagination from './TablePagination';
 import TableBtn from './TableBtn';
-import DialogView from './DialogView';
+// import DialogView from './DialogView';
+import FormDialog from './FormDialog';
+
 import request from '@/utils/request';
 import   '@/styles/TableView.scss';
 export default {
@@ -62,7 +70,8 @@ export default {
     TableSearch,
     TablePagination,
     TableBtn,
-    DialogView,
+    // DialogView,
+    FormDialog,
   },
   data () {
     return {
@@ -184,8 +193,8 @@ export default {
     },
     rowBtnClick(row,action) {
       this.now_action=action;
-      this.$refs.dialog.openDialog();
-      this.$refs.dialog.openDialog();
+       this.$refs.dialog2.setConf(this.gridConfig.tableSearchFields,row);
+      this.$refs.dialog2.openDialog();
       console.log(row,action);
     },
     initView(){
