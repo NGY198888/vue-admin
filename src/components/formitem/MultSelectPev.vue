@@ -1,5 +1,5 @@
 <template>
-    <el-form-item :label="field.name">
+    <el-form-item :label="field.label">
             <el-select :value="val" 
             :placeholder="field.name"
             clearable

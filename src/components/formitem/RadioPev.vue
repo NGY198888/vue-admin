@@ -1,5 +1,5 @@
 <template>
-    <el-form-item :label="field.name">
+    <el-form-item :label="field.label">
              <el-radio-group 
              :fill="field.color?field.color:'#409EFF'"
              v-model="inner_val"

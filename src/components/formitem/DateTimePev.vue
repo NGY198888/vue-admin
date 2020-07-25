@@ -1,5 +1,5 @@
 <template>
-    <el-form-item :label="field.name">
+    <el-form-item :label="field.label">
         <el-date-picker
         :type="field.type"
         v-model="inner_val"

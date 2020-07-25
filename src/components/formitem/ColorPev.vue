@@ -1,5 +1,5 @@
 <template>
-    <el-form-item :label="field.name">
+    <el-form-item :label="field.label">
             <el-color-picker 
              :value="val"
              @change="change"

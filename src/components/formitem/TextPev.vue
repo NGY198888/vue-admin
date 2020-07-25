@@ -1,5 +1,5 @@
 <template>
-    <el-form-item :label="field.name">
+    <el-form-item :label="field.name||field.label">
             <el-input :value="val" 
             :placeholder="field.placeholder"
             @input="input"

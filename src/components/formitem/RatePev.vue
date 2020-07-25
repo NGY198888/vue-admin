@@ -1,6 +1,6 @@
 <template>
 <div style="display: inline-block;">
-    <el-form-item :label="field.name" class="field_item">
+    <el-form-item :label="field.label" class="field_item">
             <el-rate
             :value="val"
             @change="change"

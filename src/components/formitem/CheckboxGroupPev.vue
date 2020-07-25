@@ -1,5 +1,5 @@
 <template>
-    <el-form-item :label="field.name">
+    <el-form-item :label="field.label">
             <!-- <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="onCheckedAll">全选</el-checkbox>
             <div style="margin: 15px 0;"></div> -->
             <el-checkbox-group v-model="inner_val" 
