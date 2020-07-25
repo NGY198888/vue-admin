@@ -7,6 +7,7 @@
            <RadioPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='radio'" /> 
            <UploadPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='file'" /> 
            <SelectPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='select'" /> 
+           <HiddenPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='hidden'" /> 
            <MultSelectPev :field="field" v-model="field.val" :key="field.field"  v-else-if="field.type=='mult_select'"  /> 
            <DateTimePev :field="field" v-model="field.val" :key="field.field" v-else-if="['year','month','date','week','datetime','datetimerange','daterange','dates'].includes(field.type)"  /> 
            <SwitchPev :field="field" v-model="field.val" :key="field.field"  v-else-if="['switch','bool'].includes(field.type)"  /> 
@@ -32,6 +33,7 @@ import ColorPev from './formitem/ColorPev';
 import RatePev from './formitem/RatePev';
 import RadioPev from './formitem/RadioPev';
 import UploadPev from './formitem/UploadPev';
+import HiddenPev from './formitem/HiddenPev';
 export default {
   name: 'TableSearch',
   props: {
@@ -48,6 +50,7 @@ export default {
      RatePev,
      RadioPev,
      UploadPev,
+     HiddenPev,
   },
   data () {
     return {
