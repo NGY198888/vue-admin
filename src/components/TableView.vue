@@ -34,7 +34,13 @@
        @sizeChange="sizeChange"
        @currentChange="currentChange"
         /></div>
-        
+        <DialogView
+        title="test"
+        :needConfirm="true"
+        ref="dialog"
+        >
+111111111
+        </DialogView>
     </div>
  
 </template>
@@ -44,6 +50,7 @@
 import TableSearch from './TableSearch';
 import TablePagination from './TablePagination';
 import TableBtn from './TableBtn';
+import DialogView from './DialogView';
 import request from '@/utils/request';
 import   '@/styles/TableView.scss';
 export default {
@@ -55,10 +62,11 @@ export default {
     TableSearch,
     TablePagination,
     TableBtn,
+    DialogView,
   },
   data () {
     return {
-      
+      now_action:null,
       gridConfig:{
         multCheck:false,
         total:0,
@@ -175,6 +183,9 @@ export default {
         this.query()
     },
     rowBtnClick(row,action) {
+      this.now_action=action;
+      this.$refs.dialog.openDialog();
+      this.$refs.dialog.openDialog();
       console.log(row,action);
     },
     initView(){
@@ -215,7 +226,6 @@ export default {
     view_conf_api(){
       return `/${this.resource}/view`
     },
-
   },
   created () {
     this.initView();

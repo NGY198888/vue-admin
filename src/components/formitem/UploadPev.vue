@@ -1,5 +1,5 @@
 <template>
-    <el-form-item :label="field.name">
+    <el-form-item :label="field.label">
             <el-upload
             class="upload-demo"
             :action="upLoadUrl"
