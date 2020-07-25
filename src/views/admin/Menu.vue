@@ -94,8 +94,7 @@ export default {
   computed: {
     ...mapState({
         menus:state=>state.site.menu
-  })
-    
+    })
   }
 }
 </script>

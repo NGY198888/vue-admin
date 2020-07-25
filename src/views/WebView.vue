@@ -12,7 +12,7 @@
         },
         computed:{
             url(){
-               return   this.$route.params.url.replace(/ngy2020/g,"/");
+               return   this.$route.params.resource.replace(/ngy2020/g,"/");
             }
         },
         mounted(){

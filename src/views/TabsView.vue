@@ -2,7 +2,7 @@
 <div class="tabs_warp">
         <el-tabs
             v-show="tabs.length>0"
-            v-model="$route.name" 
+            :value="$route.name" 
             type="card" 
             @edit="handleTabsEdit"
             @tab-click="tabClick"

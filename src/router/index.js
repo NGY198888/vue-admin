@@ -51,7 +51,7 @@ const router = new Router({
             component: LogoutView, 
           },
           {
-            path: "/webview/:url",//嵌套外部网址
+            path: "/webview/:resource",//嵌套外部网址
             component: WebView, 
           },
           {
@@ -73,5 +73,9 @@ const router = new Router({
     }
     next()
   })
-  
-  export default router;
+  // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+export default router;
