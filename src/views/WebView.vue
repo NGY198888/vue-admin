@@ -1,6 +1,11 @@
 <template>
-    <div>
-        <iframe :src="url" id="mobsf" scrolling="no" frameborder="0" style="position:absolute;top:64px;left: 240px;right:0px;bottom:100px;"></iframe>
+    <div class="web_view">
+        <iframe :src="url" 
+        id="mobsf" 
+        scrolling="no"
+         frameborder="0" 
+        class="web_iframe"
+         ></iframe>
     </div>
 </template>
 <script>
@@ -26,10 +31,16 @@
                 mobsf.style.width = (Number(deviceWidth)-240) + 'px'; //数字是页面布局宽度差值
                 mobsf.style.height = (Number(deviceHeight)-64) + 'px'; //数字是页面布局高度差
             }
-            changeMobsfIframe()
+            //changeMobsfIframe()
             window.onresize = function(){
                 changeMobsfIframe()
             }
         }
     }
 </script>
+<style  scoped>
+ .web_view ,.web_iframe{
+     height: 100%;
+     width: 100%;
+ }
+</style>
