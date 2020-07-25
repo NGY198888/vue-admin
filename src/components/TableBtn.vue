@@ -36,7 +36,7 @@ export default {
 </script>
 <style  scoped>
     .table_btn{
-        width: 100%;
+        width: calc(100% - 40px);
         display: flex;
         flex-direction: row;
         justify-content:flex-start;

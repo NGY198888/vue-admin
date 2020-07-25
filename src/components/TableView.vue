@@ -9,7 +9,8 @@
         <el-table :data="tableData"
         class='table-table'
         border
-        height="250"
+        height="1000"
+        style="width: 100%"
         >
             <el-table-column
               type="selection"
@@ -60,6 +61,7 @@ import TableBtn from './TableBtn';
 import FormDialog from './FormDialog';
 
 import request from '@/utils/request';
+// import  calcHeightx from '@/utils/calcHeightx';
 import   '@/styles/TableView.scss';
 export default {
   name: 'TableView',
@@ -183,6 +185,23 @@ export default {
     }
   },
   methods:{
+    calcHeightx() {
+        let tabWarp = window.document.getElementsByClassName('table-table');
+        
+        
+        //通过原生方法，获取dom节点的高度------获取element-ui table表格body的元素
+        let wapper = window.document.getElementsByClassName('el-table__body-wrapper');
+        //通过原生方法，获取dom节点的高度------获取element-ui table表格header的元素
+        let header = window.document.getElementsByClassName('el-table__header-wrapper');
+        //必须加延时，要不然赋不上去值
+        setTimeout(() => {
+          //通过上边计算得到的table高度的value值，减去table表格的header高度，剩下的通过dom节点直接强行赋给table表格的body
+          let  value=tabWarp[0].clientHeight;
+          let head_h=header[0].clientHeight
+          console.log("calcHeightx",value,head_h,(value - head_h));
+          wapper[0].style.height = (value - head_h) + 'px';
+        }, 250)
+    },
     sizeChange(pageSize){
       this.gridConfig.pageSizes=pageSize
       this.query()
@@ -237,6 +256,10 @@ export default {
     },
   },
   created () {
+    window.addEventListener('resize', () => {
+      this.calcHeightx();
+    });
+    this.calcHeightx();
     this.initView();
   }
 }
