@@ -61,7 +61,6 @@ import TableBtn from './TableBtn';
 import FormDialog from './FormDialog';
 
 import request from '@/utils/request';
-// import  calcHeightx from '@/utils/calcHeightx';
 import   '@/styles/TableView.scss';
 export default {
   name: 'TableView',
@@ -200,7 +199,7 @@ export default {
           let head_h=header[0].clientHeight
           console.log("calcHeightx",value,head_h,(value - head_h));
           wapper[0].style.height = (value - head_h) + 'px';
-        }, 250)
+        }, 300)
     },
     sizeChange(pageSize){
       this.gridConfig.pageSizes=pageSize
@@ -256,11 +255,13 @@ export default {
     },
   },
   created () {
+    this.initView();
+  },
+  mounted(){
     window.addEventListener('resize', () => {
       this.calcHeightx();
     });
     this.calcHeightx();
-    this.initView();
   }
 }
 </script>
