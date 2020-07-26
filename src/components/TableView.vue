@@ -44,9 +44,10 @@
         </DialogView> -->
 
         <FormDialog
-        title="qqqq"
+        title="去去"
         :needConfirm="true"
         ref="dialog2"
+        :height="860"
         > </FormDialog>
     </div>
  

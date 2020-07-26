@@ -1,12 +1,16 @@
 <template>
     <el-dialog 
+    class="dialog"
      append-to-body
+     :top="top"
      :width="width?width:'50%'"
-     :title="title"
      :visible.sync="dialog_visible"
      :before-close="beforeClose"
      >
-        <slot></slot>
+        <div slot="title" >{{title}}</div>
+        <div :style="{height:cont_height,'overflow-y':'hidden'}" class="dialog_view_content">
+           <slot></slot>
+        </div>
         <div slot="footer" class="dialog-footer">
             <el-button @click="onCancel">{{cancelTxt?cancelTxt:'取 消'}}</el-button>
             <el-button type="primary" @click="onOk">{{okTxt?okTxt:'确 定'}}</el-button>
@@ -16,6 +20,7 @@
 
 <script>
 import DialogMixin from '@/mixins/DialogMixin';
+import   '@/styles/DialogView.scss';
 export default {
   name: 'DialogView',
   inheritAttrs:false,
@@ -25,6 +30,16 @@ export default {
       cancelTxt:[String,null],
       okTxt:[String,null],
       needConfirm:[Boolean,null],
+      top:{
+        type:[String],
+        require:false,
+        default:"15vh"
+      },
+      cont_height:{
+        type:[Number,String],
+        require:false,
+        default:500
+      }
   },
   components:{
     
@@ -63,16 +78,14 @@ export default {
 //      }
 //   },
   computed: {
-    
+      // content_height:(vm)=>{
+      //     vm.height=isNaN(vm.height)?vm.height:vm.height+"px";
+      //     return `${vm.height} - 112px`
+      // },
+      //  calc_content_height:(vm)=>{ 
+      //     return `calc(${vm.content_height})`
+      // }
   },
   mixins:[DialogMixin]
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
- 
-.dialog-footer{
-  text-align: center;
-}
-</style>

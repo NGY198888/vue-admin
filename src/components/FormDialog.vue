@@ -1,32 +1,47 @@
 <template>
         <DialogView
+        :top="top"
          v-bind="$attrs" 
          v-on="$listeners"
          :needConfirm="needConfirm"
          ref="dialog"
+         :cont_height="calc_tabs_height"
         >
-        <FormView 
+       <!-- <FormView 
         :fields="fields"
         :row="row"
         :key="key"
+        /> -->
+        <TabsFormView
+        :fields="fields"
+        :row="row"
+        :key="key"
+        :form_height="form_height"
         />
         </DialogView>
 </template>
 
 <script>
 import DialogView from './DialogView';
-import FormView from './FormView';
+// import FormView from './FormView';
+import TabsFormView from './TabsFormView';
 // import DialogMixin from '@/mixins/DialogMixin';
 export default {
   name: 'FormDialog',
   inheritAttrs: false,
   props: {
+      height:{
+        type:[Number,String],
+        require:false,
+        default:500
+      }
     //   fields:[Object],
     //   row:[Object,null],
   },
   components:{
-   FormView,
+//    FormView,
    DialogView,
+   TabsFormView,
   },
   data () {
     return {
@@ -56,7 +71,19 @@ export default {
   computed:{
      key(){
           return JSON.stringify(this.row);
-     }
+     },
+      calc_tabs_height:(vm)=>{
+          let _height=isNaN(vm.height)?vm.height:vm.height+"px";
+          return `calc(${_height} - 112px)`
+      },
+      form_height:(vm)=>{
+          let _height=isNaN(vm.height)?vm.height:vm.height+"px";
+          return `calc(${_height} - 112px - 72px)`
+      },
+      top:(vm)=>{
+          let _height=isNaN(vm.height)?vm.height:vm.height+"px";
+          return `calc( (95vh - ${_height} ) / 2 )`
+      },
   }
 //   mixins:[DialogMixin]
   

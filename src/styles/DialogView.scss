@@ -1,0 +1,19 @@
+.dialog{
+    .dialog-footer{
+        text-align: center;
+    }
+    .el-dialog__body{
+       padding: 0;
+       .el-tabs--border-card{
+        box-shadow:none;
+       }
+    }
+    .dialog_view_content::-webkit-scrollbar{
+         display:none;/*隐藏滚动条*/ 
+    }
+    // .el-dialog__header{
+    //     background-color: #409EFF;
+    //     color: white;
+    // }
+
+}
