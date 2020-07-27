@@ -4,15 +4,30 @@
     }
     .el-dialog__body{
        padding: 0;
-       .el-tabs--border-card{
-        box-shadow:none;
+    }
+    .el-dialog__footer{
+        border-top: 1px solid #DCDFE6;
+        background-color: #EBEEF5;
+    }
+    .tabs_form_view{
+        .el-tabs__nav{
+            .el-tabs__item{
+                background-color: #f5f7fa;
+            }
+            .is-active{
+                background-color: #FFFFFF;
+            }
+        }
+       .el-tabs__content{
+          padding: 15px 20px;
        }
     }
     .dialog_view_content::-webkit-scrollbar{
          display:none;/*隐藏滚动条*/ 
+        
     }
     // .el-dialog__header{
-    //     background-color: #409EFF;
+    //     background-color: #C6E2FF;
     //     color: white;
     // }
 

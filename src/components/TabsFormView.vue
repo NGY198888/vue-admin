@@ -1,6 +1,6 @@
 <template>
-   <div>
-       <el-tabs type="border-card">
+   <div class="tabs_form_view">
+       <el-tabs type="card">
             <el-tab-pane :label="tab.label" v-for="tab in tabs" :key="tab.label" >
                 <FormView 
                     :fields="tab.fields"
