@@ -4,7 +4,8 @@
         background
         @current-change="currentChange"
         layout="sizes,prev, pager, next,total"
-        :page-size="pageSizes"
+        :page-size="pageSize"
+        :page-sizes="pageSizes"
         :total="total">
         </el-pagination>
    </div>
@@ -15,7 +16,8 @@
 export default {
   name: 'TablePagination',
   props: {
-      pageSizes:Number,
+      pageSize:Number,
+      pageSizes:Array,
       total:Number,
   },
   components:{

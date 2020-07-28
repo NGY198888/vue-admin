@@ -3,34 +3,43 @@
         <div class="table-search" style="width:100%;margin-bottom:8px;">
             <table-search
             :fields="gridConfig.tableSearchFields"
+            @onSearch="onSearch"
              />
         </div>
-         <TableBtn :table_buttons="gridConfig.table_buttons" />
+         <TableBtn :table_buttons="table_buttons" />
         <el-table :data="tableData"
         class='table-table'
         border
         height="1000"
         style="width: 100%"
+        @sort-change="sortChange"
         >
             <el-table-column
               type="selection"
               v-if="gridConfig.multCheck"
               width="55">
             </el-table-column>
-            <el-table-column :prop="field.field" :label="field.label" :width="field.width?field.width:140" v-for="field in  gridConfig.tableFields" :key="field.field">
+            <el-table-column 
+            :prop="field.field" 
+            :label="field.label" 
+            :sortable="field.sortable?'custom':false"
+            :width="field.width?field.width:140" 
+            v-for="field in  gridConfig.tableFields" 
+            :key="field.field">
             </el-table-column>
-            <el-table-column label="操作" v-if="gridConfig.row_buttons&&gridConfig.row_buttons.length>0">
+            <el-table-column label="操作" v-if="row_buttons&&row_buttons.length>0">
               <template slot-scope="scope">
                 <el-button size="mini"
                  @click="rowBtnClick(scope.row,btn.action)" 
                  :icon="btn.icon?btn.icon:''"
-                  v-for="btn in gridConfig.row_buttons" :key="btn.action">{{btn.name}}</el-button>
+                  v-for="btn in row_buttons" :key="btn.action">{{btn.name}}</el-button>
               </template>
             </el-table-column>
         </el-table>
        <div class="table-pagination">
        <table-pagination
        :total="gridConfig.total"
+       :pageSize="gridConfig.pageSize"
        :pageSizes="gridConfig.pageSizes"
        @sizeChange="sizeChange"
        @currentChange="currentChange"
@@ -47,7 +56,7 @@
         title="去去"
         :needConfirm="true"
         ref="dialog2"
-        :height="860"
+        :height="600"
         > </FormDialog>
     </div>
  
@@ -63,6 +72,7 @@ import FormDialog from './FormDialog';
 
 import request from '@/utils/request';
 import   '@/styles/TableView.scss';
+import _ from 'lodash';
 export default {
   name: 'TableView',
   props: {
@@ -79,32 +89,19 @@ export default {
     return {
       now_action:null,
       gridConfig:{
+        sortStr:null,
         multCheck:false,
         total:0,
-        pageSizes:20,
+        pageSize:20,
+        pageSizes:[20,40,100,500,100000],
         page:1,
         tableSearchFields:[],
         tableFields:[],
-        row_buttons:[
-          {
-            name:"修改",
-            action:"edit"
-          },
-          {
-            name:"删除",
-            action:"delete"
-          }
-        ],
-        table_buttons:[
-          {
-            name:"新增",
-            action:"add"
-          },
-          {
-            name:"导出",
-            action:"export"
-          }
-        ],
+        formFields:[],
+        viewFields:[],
+        buttons:[],
+        table:'',
+        pagination:true,
       },
       tableData: [
         {
@@ -212,25 +209,36 @@ export default {
     },
     rowBtnClick(row,action) {
       this.now_action=action;
-       this.$refs.dialog2.setConf(this.gridConfig.tableSearchFields,row);
+       this.$refs.dialog2.setConf(this.gridConfig.formFields,row);
       this.$refs.dialog2.openDialog();
       console.log(row,action);
     },
     initView(){
        request.get(this.grid_conf_api).then((rs)=>{
-           this.gridConfig.tableFields=rs.data.fields
-           this.gridConfig.tableSearchFields=rs.data.searchFields
+           this.gridConfig=Object.assign(this.gridConfig,rs.data)
            this.query()
        })
+    },
+    sortChange({prop, order }){
+        let orderStr=order=="descending"?"desc":"asc"
+        this.gridConfig.sortStr=`${prop} ${orderStr}`;
+        this.gridConfig.page=1;
+        this.query()
+    },
+    onSearch(fields){
+        this.gridConfig.tableSearchFields=fields;
+        this.query()
     },
     query(){
       let query={
         page:this.gridConfig.page,
-        perPage:this.gridConfig.pageSizes
+        perPage:this.gridConfig.pageSizes,
+        sort:this.gridConfig.sortStr,
+        where:this.gridConfig.tableSearchFields,
       }
       request.get( `/${this.resource}`,{ params:{query:JSON.stringify(query)}}).then((rs)=>{
            this.gridConfig.total=rs.data.total
-           this.gridConfig.pageSizes=rs.data.perPage
+           this.gridConfig.pageSize=rs.data.perPage
            this.gridConfig.page=rs.data.page
            this.tableData=rs.data.data
             
@@ -254,6 +262,12 @@ export default {
     view_conf_api(){
       return `/${this.resource}/view`
     },
+    table_buttons:(vm)=>{
+      return  _.filter(vm.gridConfig.buttons, ['position', 'Table']);
+    },
+    row_buttons:(vm)=>{
+      return  _.filter(vm.gridConfig.buttons, ['position', 'Row']);
+    }
   },
   created () {
     this.initView();
