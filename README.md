@@ -8,17 +8,17 @@
  + axios
  + vue-i18n
  + rest 用于重置样式
-## Project setup
+## 初始化
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### 开发
 ```
 yarn serve
 ```
 
-### Compiles and minifies for production
+### 部署
 ```
 yarn build
 ```
@@ -27,6 +27,7 @@ yarn build
 ```
 yarn lint
 ```
-
+### 配套后台svn地址
+  https://github.com/NGY198888/adonisapp.git
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
