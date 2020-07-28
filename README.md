@@ -1,22 +1,24 @@
 # vue-admin
-> vue全家桶脚手架，只是一个初始化架构,集成了
-> vue
-> vuex
-> vue-router
-> element-ui
-> axios
-> vue-i18n
-## Project setup
+> 
+ + vue全家桶脚手架，只是一个初始化架构,集成了
+ +  vue
+ + vuex
+ + vue-router
+ + element-ui
+ + axios
+ + vue-i18n
+ + rest 用于重置样式
+## 初始化
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### 开发
 ```
 yarn serve
 ```
 
-### Compiles and minifies for production
+### 部署
 ```
 yarn build
 ```
@@ -25,6 +27,7 @@ yarn build
 ```
 yarn lint
 ```
-
+### 配套后台svn地址
+  https://github.com/NGY198888/adonisapp.git
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
