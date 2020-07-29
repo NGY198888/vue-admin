@@ -2,7 +2,6 @@ export default {
     methods:{
         onOk(){
            this.$emit("onOk")
-           this.closeDialog();
         },
         onCancel(){
            if(this.needConfirm){

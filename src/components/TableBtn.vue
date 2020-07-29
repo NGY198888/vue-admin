@@ -1,9 +1,9 @@
 <template>
    <div class="table_btn">
         <el-button size="mini"
-        @click="tableBtnClick(btn.action)" 
+        @click="tableBtnClick(btn)" 
         class="btn"
-        plain
+        :type="btn.color"
         :icon="btn.icon?btn.icon:''"
         v-for="btn in table_buttons" :key="btn.action">{{btn.name}}</el-button>
    </div>
@@ -25,8 +25,8 @@ export default {
     }
   },
   methods:{
-       tableBtnClick(action){
-          this.$emit("tableBtnClick",action);
+       tableBtnClick(btn){
+          this.$emit("tableBtnClick",btn);
        }
   },
   computed: {

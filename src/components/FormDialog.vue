@@ -6,6 +6,7 @@
          :needConfirm="needConfirm"
          ref="dialog"
          :cont_height="calc_tabs_height"
+         @onOk="onSubmit"
         >
        <!-- <FormView 
         :fields="fields"
@@ -25,7 +26,7 @@
 import DialogView from './DialogView';
 // import FormView from './FormView';
 import TabsFormView from './TabsFormView';
-// import DialogMixin from '@/mixins/DialogMixin';
+import _ from 'lodash';
 export default {
   name: 'FormDialog',
   inheritAttrs: false,
@@ -66,6 +67,13 @@ export default {
         }
         this.fields=fields
         this.row=row
+     },
+     onSubmit(){
+        let form= _.reduce(this.fields,function(obj,field) {
+          obj[field.field] = field.val
+          return obj;
+        },{});
+          this.$emit('onSubmit',this.fields,this.row,form)
      }
   },
   computed:{

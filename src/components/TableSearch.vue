@@ -1,5 +1,8 @@
 <template>
-    <el-form :inline="true"  class="table-tool-form">
+    <el-form :inline="true"  
+    class="table-tool-form"
+    size="mini"
+    >
        <template  v-for="field in fields" >
            <text-pev :field="field" v-model="field.val"  :key="field.field" v-if="['password','number','text','textarea' ].includes(field.type)" />
            <ColorPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='color'" /> 
@@ -15,7 +18,7 @@
        </template> 
         
         <el-form-item>
-            <el-button icon="el-icon-search"  type="primary" @click="onSubmit"  size="mini">查询</el-button>
+            <el-button icon="el-icon-search" plain  type="primary" @click="onSubmit"  size="mini">查询</el-button>
             <!-- <el-button type="primary" @click="onSubmit">查询</el-button> -->
         </el-form-item>
     </el-form>

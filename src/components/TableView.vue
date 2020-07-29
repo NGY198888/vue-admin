@@ -6,12 +6,16 @@
             @onSearch="onSearch"
              />
         </div>
-         <TableBtn :table_buttons="table_buttons" />
+         <TableBtn 
+         @tableBtnClick="tableBtnClick"
+         :table_buttons="table_buttons"
+          />
         <el-table :data="tableData"
         class='table-table'
         border
         height="1000"
         style="width: 100%"
+        size="small"
         @sort-change="sortChange"
         >
             <el-table-column
@@ -23,16 +27,19 @@
             :prop="field.field" 
             :label="field.label" 
             :sortable="field.sortable?'custom':false"
-            :width="field.width?field.width:140" 
+            :min-width="field.width?field.width:140" 
             v-for="field in  gridConfig.tableFields" 
             :key="field.field">
             </el-table-column>
             <el-table-column label="操作" v-if="row_buttons&&row_buttons.length>0">
               <template slot-scope="scope">
-                <el-button size="mini"
-                 @click="rowBtnClick(scope.row,btn.action)" 
-                 :icon="btn.icon?btn.icon:''"
-                  v-for="btn in row_buttons" :key="btn.action">{{btn.name}}</el-button>
+                <el-button 
+                  size="mini"
+                  :type="btn.color"
+                  @click="rowBtnClick(scope.row,btn)" 
+                  :icon="btn.icon?btn.icon:''"
+                  v-for="btn in row_buttons" 
+                  :key="btn.action">{{btn.name}}</el-button>
               </template>
             </el-table-column>
         </el-table>
@@ -44,19 +51,12 @@
        @sizeChange="sizeChange"
        @currentChange="currentChange"
         /></div>
-        <!-- <DialogView
-        title="test"
+        <FormDialog
+        :title="now_btn.form_title"
         :needConfirm="true"
         ref="dialog"
-        >
-111111111
-        </DialogView> -->
-
-        <FormDialog
-        title="去去"
-        :needConfirm="true"
-        ref="dialog2"
-        :height="600"
+        :height="now_btn.form_height"
+        @onSubmit="onFormSubmit"
         > </FormDialog>
     </div>
  
@@ -87,7 +87,7 @@ export default {
   },
   data () {
     return {
-      now_action:null,
+      now_btn:{},
       gridConfig:{
         sortStr:null,
         multCheck:false,
@@ -101,6 +101,7 @@ export default {
         viewFields:[],
         buttons:[],
         table:'',
+        key:'id',
         pagination:true,
       },
       tableData: [
@@ -200,18 +201,75 @@ export default {
         }, 300)
     },
     sizeChange(pageSize){
-      this.gridConfig.pageSizes=pageSize
+      this.gridConfig.pageSize=pageSize
       this.query()
     },
      currentChange(current){
         this.gridConfig.page=current;
         this.query()
     },
-    rowBtnClick(row,action) {
-      this.now_action=action;
-       this.$refs.dialog2.setConf(this.gridConfig.formFields,row);
-      this.$refs.dialog2.openDialog();
-      console.log(row,action);
+    rowBtnClick(row,btn) {
+      this.btnLogic(btn,row);
+    },
+    tableBtnClick(btn){
+      console.log('tableBtnClick');
+       this.btnLogic(btn,null);
+    },
+    btnLogic(btn,row){
+      console.log(btn,row);
+      this.now_btn=btn;
+      if(btn.actionType=='FORM'){
+          this.$refs.dialog.setConf(this.getFormFields(),row);
+          this.$refs.dialog.openDialog();
+      }else{
+           this.submitAPI(btn,row)
+      }
+    },
+    onFormSubmit(fields,row,form){
+       console.log('onFormSubmit',this.now_btn,fields,row,form);
+       if(this.now_btn.action=='Add'){
+          request.post( `/${this.resource}/`,form).then(()=>{
+              this.$message.success('添加成功');
+              this.query()
+          })
+      }else if(this.now_btn.action=='Edit'){
+          request.post( `/${this.resource}/${row[this.gridConfig.key]}`,form).then(()=>{
+              this.$message.success('修改成功');
+              this.query()
+          })
+      }
+      else{
+          form= Object.assign(form,{fields,row})
+          request.post( `/${this.resource}/${this.now_btn.commit_url}`,form).then(()=>{
+              this.query()
+          })
+      }
+       this.$refs.dialog.closeDialog();
+    },
+    submitAPI(btn,row){
+      let  id=row?row[this.gridConfig.key]:''
+      if(btn.confirmTips){
+        this.$confirm(btn.confirmTips, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+           if(btn.action=='Delete'){
+                request.delete( `/${this.resource}/${id}`).then(()=>{
+                    this.$message.success('删除成功');
+                    this.query()
+                })
+            }else{
+                let query={
+                  id:id,
+                  where:this.gridConfig.tableSearchFields,
+                }
+                request.post( `/${this.resource}/${btn.commit_url}`,{ params:{query:JSON.stringify(query)}}).then(()=>{
+                    this.query()
+                })
+            }
+        })
+      }
     },
     initView(){
        request.get(this.grid_conf_api).then((rs)=>{
@@ -229,6 +287,15 @@ export default {
         this.gridConfig.tableSearchFields=fields;
         this.query()
     },
+    getFormFields(){
+       if(!this.now_btn.ui_url){
+          return this.gridConfig.formFields;
+       }else{
+          request.get( `/${this.resource}/${this.now_btn.ui_url}`).then((rs)=>{
+              return rs.data;  
+          })
+       }
+    },
     query(){
       let query={
         page:this.gridConfig.page,
@@ -238,7 +305,7 @@ export default {
       }
       request.get( `/${this.resource}`,{ params:{query:JSON.stringify(query)}}).then((rs)=>{
            this.gridConfig.total=rs.data.total
-           this.gridConfig.pageSize=rs.data.perPage
+          //  this.gridConfig.pageSize=rs.data.perPage
            this.gridConfig.page=rs.data.page
            this.tableData=rs.data.data
             
@@ -268,6 +335,7 @@ export default {
     row_buttons:(vm)=>{
       return  _.filter(vm.gridConfig.buttons, ['position', 'Row']);
     }
+    
   },
   created () {
     this.initView();
