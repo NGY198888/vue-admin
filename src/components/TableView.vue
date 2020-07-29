@@ -12,6 +12,7 @@
           />
         <el-table :data="tableData"
         class='table-table'
+         @row-dblclick="rowDblclick"
         border
         height="1000"
         style="width: 100%"
@@ -53,6 +54,7 @@
         /></div>
         <FormDialog
         :title="now_btn.form_title"
+        :disabled="now_btn.form_disabled"
         :needConfirm="true"
         ref="dialog"
         :height="now_btn.form_height"
@@ -208,12 +210,19 @@ export default {
         this.gridConfig.page=current;
         this.query()
     },
+    //双击行
+    rowDblclick(row){
+      console.log('rowDblclick');
+       let btn= this.gridConfig.buttons.find(btn=>btn.action=='Show')
+       if(btn)
+           this.btnLogic(btn,row);
+    },
     rowBtnClick(row,btn) {
       this.btnLogic(btn,row);
     },
     tableBtnClick(btn){
       console.log('tableBtnClick');
-       this.btnLogic(btn,null);
+      this.btnLogic(btn,null);
     },
     btnLogic(btn,row){
       console.log(btn,row);
@@ -233,7 +242,7 @@ export default {
               this.query()
           })
       }else if(this.now_btn.action=='Edit'){
-          request.post( `/${this.resource}/${row[this.gridConfig.key]}`,form).then(()=>{
+          request.put( `/${this.resource}/${row[this.gridConfig.key]}`,form).then(()=>{
               this.$message.success('修改成功');
               this.query()
           })

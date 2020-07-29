@@ -12,8 +12,8 @@
            <slot></slot>
         </div>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="onCancel">{{cancelTxt?cancelTxt:'取 消'}}</el-button>
-            <el-button type="primary" @click="onOk">{{okTxt?okTxt:'确 定'}}</el-button>
+            <el-button @click="onCancel">{{cancelTxt?cancelTxt:(disabled?'关 闭':'取 消')}}</el-button>
+            <el-button type="primary" @click="onOk" v-show="!disabled">{{okTxt?okTxt:'确 定'}}</el-button>
         </div>
     </el-dialog>
 </template>
@@ -25,6 +25,7 @@ export default {
   name: 'DialogView',
   inheritAttrs:false,
   props: {
+      disabled:[Boolean,null],
       title:String,
       width:[String,Number,null],
       cancelTxt:[String,null],

@@ -7,6 +7,8 @@
                     :row="row"
                     :style="{height:form_height,'overflow-y':'scroll'}"
                     class="tabs_form"
+                     v-bind="$attrs" 
+                     v-on="$listeners"
                 />
             </el-tab-pane>
        </el-tabs>

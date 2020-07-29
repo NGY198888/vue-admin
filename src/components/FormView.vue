@@ -1,6 +1,12 @@
 <template>
    <div>
-      <el-form :inline="inline?inline:false"  class="table-tool-form" label-width="150px" label-position="left">
+      <el-form 
+       :inline="inline?inline:false" 
+       @submit.native.prevent
+       :disabled="disabled"
+       class="table-tool-form" 
+       label-width="150px" 
+       label-position="left">
        <template  v-for="field in fields" >
            <text-pev :field="field" v-model="field.val"  :key="field.field" v-if="['password','number','text','textarea' ].includes(field.type)" />
            <ColorPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='color'" /> 
@@ -35,6 +41,7 @@ import HiddenPev from './formitem/HiddenPev';
 export default {
   name: 'FormView',
   props: {
+    disabled:[Boolean,null],
     fields:[Object,Array,null],
     row:[Object,null],
     inline:[Boolean,null],//行内模式，该模式使组件横向布局

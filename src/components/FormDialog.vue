@@ -18,6 +18,8 @@
         :row="row"
         :key="key"
         :form_height="form_height"
+         v-bind="$attrs" 
+         v-on="$listeners"
         />
         </DialogView>
 </template>
