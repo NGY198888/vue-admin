@@ -31,8 +31,13 @@
             :min-width="field.width?field.width:140" 
             v-for="field in  gridConfig.tableFields" 
             :key="field.field">
+            <template slot-scope="scope">
+                <ColumnTpl :scope="scope" :tpl="field.tpl"  :tplRules="field.tplRules" />
+            </template>
             </el-table-column>
-            <el-table-column label="操作" v-if="row_buttons&&row_buttons.length>0">
+            <el-table-column label="操作"
+            :min-width="row_buttons_length" 
+             v-if="row_buttons&&row_buttons.length>0">
               <template slot-scope="scope">
                 <el-button 
                   size="mini"
@@ -75,6 +80,7 @@ import FormDialog from './FormDialog';
 import request from '@/utils/request';
 import   '@/styles/TableView.scss';
 import _ from 'lodash';
+import ColumnTpl from './tpl/ColumnTpl';
 export default {
   name: 'TableView',
   props: {
@@ -86,6 +92,7 @@ export default {
     TableBtn,
     // DialogView,
     FormDialog,
+    ColumnTpl,
   },
   data () {
     return {
@@ -343,8 +350,10 @@ export default {
     },
     row_buttons:(vm)=>{
       return  _.filter(vm.gridConfig.buttons, ['position', 'Row']);
+    },
+    row_buttons_length:(vm)=>{
+       return vm.row_buttons.length*90
     }
-    
   },
   created () {
     this.initView();
