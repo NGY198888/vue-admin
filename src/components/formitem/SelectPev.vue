@@ -1,7 +1,7 @@
 <template>
     <el-form-item :label="field.label">
             <el-select :value="val" 
-            :placeholder="field.name"
+            :placeholder="field.placeholder"
             clearable
             filterable
             @change="change"

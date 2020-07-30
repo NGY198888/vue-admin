@@ -3,6 +3,8 @@
            <el-switch
             :value="val"
             @change="change"
+            active-value="1"
+            inactive-value="0"
             active-color="#13ce66"
             inactive-color="#ff4949">
             </el-switch>
