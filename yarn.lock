@@ -3127,6 +3127,11 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
+e-icon-picker@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/e-icon-picker/-/e-icon-picker-1.0.4.tgz#47effc73972aa50f5d2cc3413561ffc96340edd2"
+  integrity sha512-sZSHoYq4VtBnD3RWktp7OTnOmZ6h0miynajz86EYpfWY0tqynxjwyWNL2oNMabD2IHaxi5UnNrkNJe15CE1z7A==
+
 easy-stack@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/easy-stack/download/easy-stack-1.0.0.tgz#12c91b3085a37f0baa336e9486eac4bf94e3e788"

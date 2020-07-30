@@ -40,8 +40,11 @@ Vue.use(Element, {
    zIndex: 3000 ,
    i18n: (key, value) => i18n.t(key, value)
   });
-
-
+//图标选择器
+import iconPicker from 'e-icon-picker';
+import 'e-icon-picker/dist/index.css';//基础样式
+import 'e-icon-picker/dist/main.css'; //fontAwesome 图标库样式
+Vue.use(iconPicker);
 // Vue.prototype.$message = Element.Message;
 Vue.config.productionTip = false
 new Vue({
