@@ -21,6 +21,7 @@ export default {
      scope:Object,
      tpl:[String,null],
      tplRules:[Object,Array,null],
+     valDic:[Object,Array,null],
   },
   created(){
      
@@ -44,7 +45,32 @@ export default {
          return vm.scope.column.property
     }
     ,label:(vm)=>{
-         return vm.scope.row[vm.field]
+        let val= vm.scope.row[vm.field]
+         let mach=false;
+         if(_.isArray(vm.valDic)&&vm.valDic.length>0){
+           let findrs= vm.valDic.find(item=>item.id==val)
+           if(findrs){
+              val=findrs.txt;
+            }else {
+              let nullrs= vm.valDic.find(item=>item.id=='null')
+                if(nullrs){
+                   val=nullrs.txt;
+                }
+            }
+         }else if(vm.valDic){
+             for (const key in vm.valDic) {
+               let vol = vm.valDic[key];
+               if(key==val){
+                  val=vol;
+                  mach=true;
+                  break;
+               }
+             }
+             if(!mach&& Object.prototype.hasOwnProperty.call(vm.valDic, 'null')){
+                  val=vm.valDic['null'];
+             }
+         }
+         return val;
     },
     tagType:(vm)=>{
            if(vm.tplRules){

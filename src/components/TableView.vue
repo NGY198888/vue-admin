@@ -32,7 +32,12 @@
             v-for="field in  gridConfig.tableFields" 
             :key="field.field">
             <template slot-scope="scope">
-                <ColumnTpl :scope="scope" :tpl="field.tpl"  :tplRules="field.tplRules" />
+                <ColumnTpl 
+                :scope="scope" 
+                :tpl="field.tpl" 
+                 :tplRules="field.tplRules" 
+                 :valDic="field.valDic"
+                 />
             </template>
             </el-table-column>
             <el-table-column label="操作"
