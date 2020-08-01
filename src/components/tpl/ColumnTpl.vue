@@ -27,7 +27,7 @@ export default {
      
   },
   mounted(){
-    console.log('scope',this.scope.column.property,this.scope.row);
+    // console.log('scope',this.scope.column.property,this.scope.row);
   },
   components:{
    

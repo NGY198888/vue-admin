@@ -72,7 +72,13 @@ export default {
      },
      onSubmit(){
         let form= _.reduce(this.fields,function(obj,field) {
-          obj[field.field] = field.val
+          let val= field.val;
+          switch(field.type){
+              case 'switch':
+                val=parseInt(val);
+              break;
+          }
+          obj[field.field] =val
           return obj;
         },{});
           this.$emit('onSubmit',this.fields,this.row,form)

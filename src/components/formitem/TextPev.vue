@@ -4,8 +4,8 @@
             :placeholder="field.placeholder"
             @input="input"
             clearable
-            autosize
             autocomplete
+            :rows="field.rows?field.rows:2"
             :type="field.type"
             ></el-input>
     </el-form-item>

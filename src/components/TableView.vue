@@ -101,6 +101,7 @@ export default {
   },
   data () {
     return {
+      selected_row:[],
       now_btn:{},
       gridConfig:{
         sortStr:null,
@@ -230,7 +231,10 @@ export default {
            this.btnLogic(btn,row);
     },
     rowBtnClick(row,btn) {
-      this.btnLogic(btn,row);
+      this.getShowRow(row).then((showRow)=>{
+          this.btnLogic(btn,showRow);
+      })
+      
     },
     tableBtnClick(btn){
       console.log('tableBtnClick');
@@ -240,7 +244,7 @@ export default {
       console.log(btn,row);
       this.now_btn=btn;
       if(btn.actionType=='FORM'){
-          this.$refs.dialog.setConf(this.getFormFields(),row);
+          btn.action=='Show'? this.$refs.dialog.setConf(this.gridConfig.viewFields,row):this.$refs.dialog.setConf(this.getFormFields(),row);
           this.$refs.dialog.openDialog();
       }else{
            this.submitAPI(btn,row)
@@ -331,6 +335,13 @@ export default {
            this.tableData=rs.data.data
             
        })
+    },
+    getShowRow(row){
+      return  new Promise((resolve)=>{
+        request.get(`/${this.resource}/${row[this.gridConfig.key]}`).then((rs)=>{
+              resolve(rs.data);  
+        })
+      })
     }
   },
   computed: {
