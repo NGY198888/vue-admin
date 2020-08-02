@@ -17,6 +17,7 @@
            <IconPickerPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='icon_select'" /> 
            <HiddenPev :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='hidden'" /> 
            <MultSelectPev :field="field" v-model="field.val" :key="field.field"  v-else-if="field.type=='mult_select'"  /> 
+           <Table1ToNPev :field="field" v-model="field.val" :key="field.field"  v-else-if="field.type=='table_1_to_n'"  /> 
            <DateTimePev :field="field" v-model="field.val" :key="field.field" v-else-if="['year','month','date','week','datetime','datetimerange','daterange','dates'].includes(field.type)"  /> 
            <SwitchPev :field="field" v-model="field.val" :key="field.field"  v-else-if="['switch','bool'].includes(field.type)"  /> 
            <CheckboxGroupPev :field="field" v-model="field.val" :key="field.field"  v-else-if="field.type=='check_group'"  /> 
@@ -40,9 +41,10 @@ import RadioPev from './formitem/RadioPev';
 import UploadPev from './formitem/UploadPev';
 import HiddenPev from './formitem/HiddenPev';
 import IconPickerPev from './formitem/IconPickerPev';
+import Table1ToNPev from './formitem/Table1ToNPev';
 
 export default {
-  name: 'FormView',
+  name: 'Form',
   props: {
     disabled:[Boolean,null],
     fields:[Object,Array,null],
@@ -62,6 +64,7 @@ export default {
      UploadPev,
      HiddenPev,
      IconPickerPev,
+     Table1ToNPev,
   },
   data () {
     return {

@@ -2,7 +2,7 @@
    <div class="tabs_form_view">
        <el-tabs type="card">
             <el-tab-pane :label="tab.label" v-for="tab in tabs" :key="tab.label" >
-                <FormView 
+                <Form 
                     :fields="tab.fields"
                     :row="row"
                     :style="{height:form_height,'overflow-y':'scroll'}"
@@ -18,7 +18,7 @@
 <script>
 //表单编辑页
 // import { mapState } from "vuex";
-import FormView from './FormView';
+import Form from './Form';
 
 export default {
   name: 'TabsFormView',
@@ -32,7 +32,7 @@ export default {
     }
   },
   components:{
-     FormView
+     Form
   },
   data () {
     return {

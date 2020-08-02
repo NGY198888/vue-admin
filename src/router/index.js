@@ -9,8 +9,8 @@ import LogoutView from 'views/LogoutView';
 import WebView from 'views/WebView';
 import AdminView from 'views/AdminView';
 import NoFoundView from 'views/NoFoundView';
-import TableView from '@/components/TableView';
-import FormView from '@/components/FormView';
+import TableView from '@/views/components/TableView';
+import FormView from '@/views/components/FormView';
 import LocalStore from '@/utils/LocalStore';
 
 Vue.use(Router);

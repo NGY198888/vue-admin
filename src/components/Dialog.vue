@@ -22,7 +22,7 @@
 import DialogMixin from '@/mixins/DialogMixin';
 import   '@/styles/DialogView.scss';
 export default {
-  name: 'DialogView',
+  name: 'Dialog',
   inheritAttrs:false,
   props: {
       disabled:[Boolean,null],

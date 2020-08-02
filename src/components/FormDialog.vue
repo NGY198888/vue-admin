@@ -1,5 +1,5 @@
 <template>
-        <DialogView
+        <Dialog
         :top="top"
          v-bind="$attrs" 
          v-on="$listeners"
@@ -8,26 +8,26 @@
          :cont_height="calc_tabs_height"
          @onOk="onSubmit"
         >
-       <!-- <FormView 
-        :fields="fields"
-        :row="row"
-        :key="key"
-        /> -->
-        <TabsFormView
-        :fields="fields"
-        :row="row"
-        :key="key"
-        :form_height="form_height"
-         v-bind="$attrs" 
-         v-on="$listeners"
-        />
-        </DialogView>
+          <!-- <Form
+          :fields="fields"
+          :row="row"
+          :key="key"
+          /> -->
+          <TabsForm
+          :fields="fields"
+          :row="row"
+          :key="key"
+          :form_height="form_height"
+          v-bind="$attrs" 
+          v-on="$listeners"
+          />
+        </Dialog>
 </template>
 
 <script>
-import DialogView from './DialogView';
-// import FormView from './FormView';
-import TabsFormView from './TabsFormView';
+import Dialog from './Dialog';
+// import Form from './Form';
+import TabsForm from './TabsForm';
 import _ from 'lodash';
 export default {
   name: 'FormDialog',
@@ -42,9 +42,9 @@ export default {
     //   row:[Object,null],
   },
   components:{
-//    FormView,
-   DialogView,
-   TabsFormView,
+//    Form,
+   Dialog,
+   TabsForm,
   },
   data () {
     return {

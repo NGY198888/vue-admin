@@ -76,16 +76,16 @@
 
 <script>
 // import { mapState } from "vuex";
-import TableSearch from './TableSearch';
-import TablePagination from './TablePagination';
-import TableBtn from './TableBtn';
+import TableSearch from '@/components/TableSearch';
+import TablePagination from '@/components/TablePagination';
+import TableBtn from '@/components/TableBtn';
 // import DialogView from './DialogView';
-import FormDialog from './FormDialog';
+import FormDialog from '@/components/FormDialog';
 
 import request from '@/utils/request';
 import   '@/styles/TableView.scss';
 import _ from 'lodash';
-import ColumnTpl from './tpl/ColumnTpl';
+import ColumnTpl from '@/components/tpl/ColumnTpl';
 export default {
   name: 'TableView',
   props: {
