@@ -12,7 +12,7 @@
 
 <script>
 //适用于data是['111','222','333']，即元素不是kv键值对的这种类型
-// import { mapState } from "vuex";
+import PevMixin from '@/mixins/PevMixin';
 export default {
   name: 'CheckboxGroupPev',
   model:{
@@ -31,7 +31,7 @@ export default {
   },
   methods:{
        change(value){
-           console.log(arguments);
+         this.throttledDataChange()
          this.$emit('change',value)
          return value;
        },
@@ -39,6 +39,7 @@ export default {
          this.inner_val=[];
          return value;
       }
-  }
+  },
+  mixins:[PevMixin]
 }
 </script>

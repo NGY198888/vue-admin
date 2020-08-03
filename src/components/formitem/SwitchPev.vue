@@ -12,7 +12,7 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
+import PevMixin from '@/mixins/PevMixin';
 export default {
   name: 'SwitchPev',
   model:{
@@ -25,9 +25,10 @@ export default {
   },
   methods:{
        change(value){
-         console.log(value);
+         this.throttledDataChange()
          this.$emit('change',value)
        }
-  }
+  },
+  mixins:[PevMixin]
 }
 </script>

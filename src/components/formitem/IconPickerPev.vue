@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import PevMixin from '@/mixins/PevMixin';
 export default {
   name: 'IconPickerPev',
   model:{
@@ -20,8 +21,10 @@ export default {
   },
   methods:{
        input(value){
+         this.throttledDataChange()
          this.$emit('change',value)
        }
-  }
+  },
+  mixins:[PevMixin]
 }
 </script>

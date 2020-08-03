@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import PevMixin from '@/mixins/PevMixin';
 export default {
   name: 'MultSelectPev',
   model:{
@@ -25,8 +26,10 @@ export default {
   },
   methods:{
        change(value){
+         this.throttledDataChange()
          this.$emit('change',value)
        }
-  }
+  },
+  mixins:[PevMixin]
 }
 </script>

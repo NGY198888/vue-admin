@@ -16,7 +16,7 @@
 </template>
 //这个控件icon-rate-face等图标样式依赖@/assets/fonts/style.css
 <script>
-// import { mapState } from "vuex";
+import PevMixin from '@/mixins/PevMixin';
 export default {
   name: 'SwitchPev',
   model:{
@@ -34,9 +34,11 @@ export default {
   },
   methods:{
        change(value){
+         this.throttledDataChange()
          this.$emit('change',value)
        }
-  }
+  },
+  mixins:[PevMixin]
 }
 </script>
 <style  scoped>

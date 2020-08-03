@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import PevMixin from '@/mixins/PevMixin';
 export default {
   name: 'Table1ToNPev',
   model:{
@@ -32,6 +33,7 @@ export default {
   },
   methods:{
        change(value){
+        this.throttledDataChange()
          this.$emit('change',JSON.parse(JSON.stringify(value)))
        }
   },
@@ -40,8 +42,6 @@ export default {
           return `${ Math.ceil(Math.random()*5)}${vm.field.resource}`
       }
   },
-  mounted(){
-        console.log('Table1ToNPev');
-  }
+  mixins:[PevMixin]
 }
 </script>

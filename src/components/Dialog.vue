@@ -33,13 +33,20 @@ export default {
       needConfirm:[Boolean,null],
       top:{
         type:[String],
-        require:false,
+        required:false,
         default:"15vh"
       },
       cont_height:{
         type:[Number,String],
-        require:false,
+        required:false,
         default:500
+      }
+      ,dataHadChange:{
+        type:Boolean,
+        required:false,
+        default:function(){
+          return false
+        }
       }
   },
   components:{

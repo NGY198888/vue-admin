@@ -12,7 +12,7 @@
 
 <script>
 //year/month/date/week/ datetime/datetimerange/daterange
-// import { mapState } from "vuex";
+import PevMixin from '@/mixins/PevMixin';
 export default {
   name: 'DateTimePev',
   model:{
@@ -34,6 +34,7 @@ export default {
          }else{
             datetime=this.timeStamp2String(date)
          }
+         this.throttledDataChange()
          this.$emit('change',datetime)
          return date;
        },
@@ -62,6 +63,7 @@ export default {
       return{
           inner_val:this.val||''
       }
-  }
+  },
+  mixins:[PevMixin]
 }
 </script>

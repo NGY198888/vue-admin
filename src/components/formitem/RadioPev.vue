@@ -10,7 +10,7 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
+import PevMixin from '@/mixins/PevMixin';
 export default {
   name: 'RadioPev',
   model:{
@@ -28,8 +28,10 @@ export default {
   },
   methods:{
        change(value){
+         this.throttledDataChange()
          this.$emit('change',value)
        }
-  }
+  },
+  mixins:[PevMixin]
 }
 </script>

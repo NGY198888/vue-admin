@@ -1,5 +1,6 @@
 <template>
         <Dialog
+        :dataHadChange="dataHadChange"
         :top="top"
          v-bind="$attrs" 
          v-on="$listeners"
@@ -7,6 +8,7 @@
          ref="dialog"
          :cont_height="calc_tabs_height"
          @onOk="onSubmit"
+         @onCancel="onCancel"
         >
           <!-- <Form
           :fields="fields"
@@ -20,6 +22,7 @@
           :form_height="form_height"
           v-bind="$attrs" 
           v-on="$listeners"
+          @dataChange='dataChange'
           />
         </Dialog>
 </template>
@@ -50,7 +53,8 @@ export default {
     return {
         fields:{},
         row:{},
-        needConfirm:false,
+        needConfirm:true,
+        dataHadChange:false,
     }
   },
   methods:{
@@ -68,12 +72,15 @@ export default {
                 Object.prototype.hasOwnProperty.call(row, _fields[index].field)&& (_fields[index].val=row[_fields[index].field])
             }
         }
-        // console.log('setConf',fields);
         this.fields=_fields
         this.row=row
      },
      onSubmit(){
-        let form= _.reduce(this.fields,function(obj,field) {
+          let after_form= this.getForm(this.fields)
+          this.$emit('onSubmit',this.fields,this.row,after_form)
+     },
+     getForm(fields){
+        let form= _.reduce(fields,function(obj,field) {
           let val= field.val;
           switch(field.type){
               case 'switch':
@@ -83,7 +90,13 @@ export default {
           obj[field.field] =val
           return obj;
         },{});
-          this.$emit('onSubmit',this.fields,this.row,form)
+        return form;
+     }
+     ,dataChange(){
+        this.dataHadChange=true
+     },
+     onCancel(){
+       this.dataHadChange=false
      }
   },
   computed:{

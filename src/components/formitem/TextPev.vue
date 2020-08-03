@@ -13,6 +13,7 @@
 
 <script>
 // import { mapState } from "vuex";
+import PevMixin from '@/mixins/PevMixin';
 export default {
   name: 'TextPev',
   model:{
@@ -25,8 +26,10 @@ export default {
   },
   methods:{
        input(value){
+         this.throttledDataChange()
          this.$emit('change',value)
        }
-  }
+  },
+  mixins:[PevMixin]
 }
 </script>

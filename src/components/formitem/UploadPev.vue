@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import PevMixin from '@/mixins/PevMixin';
 export default {
   name: 'UploadPev',
   model:{
@@ -42,6 +43,7 @@ export default {
         return this.$confirm(`确定移除 ${ file.name }？`);
       },
       change(file,fileList){
+        this.throttledDataChange()
         if(fileList&&fileList.length>0){
             let rs=fileList[0].response?fileList[0].response:fileList[0];
             this.$emit('change', rs)
@@ -49,7 +51,8 @@ export default {
             this.$emit('change',null)
         }
       }
-    }
+    },
+  mixins:[PevMixin]
  
 }
 </script>

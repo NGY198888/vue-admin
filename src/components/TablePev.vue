@@ -72,7 +72,8 @@
         :title="now_btn.form_title"
         :disabled="now_btn.form_disabled"
         :needConfirm="true"
-        ref="dialog"
+        :key="dialogKey"
+        ref="dialogKey"
         :height="now_btn.form_height"
         @onSubmit="onFormSubmit"
         > </FormDialog>
@@ -98,17 +99,23 @@ export default {
       resource:String,
       value:{
         type:[Array,null],
-        default:new Array(),
-        require:false,
+        default: function () {
+          return []
+        },
+        required:false,
       } ,
       //   是否远程读写数据
       remote:{
-          type:Boolean,
-          default:true,
+        type:Boolean,
+        default: function () {
+          return true
+        },
       },
       height:{
         type:[Number,null],
-        default:null,
+        default: function () {
+            return null
+        },
       }
   },
   components:{
@@ -196,8 +203,8 @@ export default {
     //   console.log(btn,row);
       this.now_btn=btn;
       if(btn.actionType=='FORM'){
-          btn.action=='Show'? this.$refs.dialog.setConf(this.gridConfig.viewFields,row):this.$refs.dialog.setConf(this.getFormFields(),row);
-          this.$refs.dialog.openDialog();
+          btn.action=='Show'? this.$refs['dialogKey'].setConf(this.gridConfig.viewFields,row):this.$refs['dialogKey'].setConf(this.getFormFields(),row);
+          this.$refs['dialogKey'].openDialog();
       }else{
            this.submitAPI(btn,row)
       }
@@ -236,7 +243,7 @@ export default {
            }
             this.emitChange();
          }
-       this.$refs.dialog.closeDialog();
+       this.$refs['dialogKey'].closeDialog();
     },
     submitAPI(btn,row){
       if(this.remote){
@@ -362,6 +369,9 @@ export default {
     row_buttons_length:(vm)=>{
        return vm.row_buttons.length*90
     }
+    ,dialogKey:()=>{
+          return `${ Math.ceil(Math.random()*25)}`
+      }
   },
   created () {
     this.initView();
