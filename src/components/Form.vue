@@ -13,6 +13,7 @@
            <RatePev  v-on="$listeners" :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='rate'" /> 
            <RadioPev v-on="$listeners" :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='radio'" /> 
            <UploadPev v-on="$listeners" :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='file'" /> 
+           <ImageUploadPev v-on="$listeners" :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='image'" /> 
            <SelectPev v-on="$listeners" :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='select'" /> 
            <IconPickerPev v-on="$listeners" :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='icon_select'" /> 
            <HiddenPev v-on="$listeners" :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='hidden'" /> 
@@ -39,6 +40,7 @@ import ColorPev from './formitem/ColorPev';
 import RatePev from './formitem/RatePev';
 import RadioPev from './formitem/RadioPev';
 import UploadPev from './formitem/UploadPev';
+import ImageUploadPev from './formitem/ImageUploadPev';
 import HiddenPev from './formitem/HiddenPev';
 import IconPickerPev from './formitem/IconPickerPev';
 import Table1ToNPev from './formitem/Table1ToNPev';
@@ -62,6 +64,7 @@ export default {
      RatePev,
      RadioPev,
      UploadPev,
+     ImageUploadPev,
      HiddenPev,
      IconPickerPev,
      Table1ToNPev,
