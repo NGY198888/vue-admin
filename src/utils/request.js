@@ -24,25 +24,27 @@ axios.interceptors.response.use( (response)=> {
     return response;
 }, 
  ({response}) =>{
-    console.log("response err",response);
     store.commit(types.STOP_LOADING)
-    let data =response.data;
-    let msg = _.get(data, 'message', _.get(data, 'error.message', _.get(data, '0.message',_.get(response, 'statusText'))))
-    if (Array.isArray(msg)) {
-      msg = msg[0].message
+    if (!response) {
+        Vue.prototype.$message.error(`服务器'${axios.defaults.baseURL}'不可访问，请检查`);
+    }else{
+        let data =response.data;
+        let msg = _.get(data, 'message', _.get(data, 'error.message', _.get(data, '0.message',_.get(response, 'statusText'))))
+        if (Array.isArray(msg)) {
+          msg = msg[0].message
+        }
+        switch(response.status){
+            case 401:
+                //未授权，去登录
+                Vue.prototype.$message.error('您尚未登录');
+                router.replace('/login');
+                break;
+            default:
+                //提示错误
+                Vue.prototype.$message.error(msg);
+                break;
+        }
     }
-    switch(response.status){
-        case 401:
-            //未授权，去登录
-            Vue.prototype.$message.error('您尚未登录');
-            router.replace('/login');
-            break;
-        default:
-            //提示错误
-            Vue.prototype.$message.error(msg);
-            break;
-    }
-    
     return Promise.reject(response);
 });
 Vue.prototype.$http = axios
