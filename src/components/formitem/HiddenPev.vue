@@ -10,7 +10,7 @@ export default {
   name: 'HiddenPev',
   model:{
       prop:'val',
-      event:'input'
+      event:'change'
   },
   props: {
      field:Object,
@@ -18,7 +18,7 @@ export default {
   },
   methods:{
        change(value){
-         this.$emit('input',value)
+         this.$emit('change',value)
        }
   }
 }

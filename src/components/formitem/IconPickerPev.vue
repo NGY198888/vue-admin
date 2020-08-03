@@ -12,7 +12,7 @@ export default {
   name: 'IconPickerPev',
   model:{
       prop:'val',
-      event:'input'
+      event:'change'
   },
   props: {
      field:Object,
@@ -20,7 +20,7 @@ export default {
   },
   methods:{
        input(value){
-         this.$emit('input',value)
+         this.$emit('change',value)
        }
   }
 }

@@ -96,8 +96,12 @@ export default {
   name: 'table-pev',
   props: {
       resource:String,
-      value:[Array,null],
-    //   是否远程读写数据
+      value:{
+        type:[Array,null],
+        default:new Array(),
+        require:false,
+      } ,
+      //   是否远程读写数据
       remote:{
           type:Boolean,
           default:true,
