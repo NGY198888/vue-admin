@@ -20,11 +20,11 @@ export default {
             }
         },
         openDialog(){
-            console.log('openDialog');
+            // console.log('openDialog');
            this.dialog_visible=true;
         },
         closeDialog(){
-            console.log('closeDialog');
+            // console.log('closeDialog');
            this.dialog_visible=false;
         },
         beforeClose(done){

@@ -45,6 +45,11 @@ import iconPicker from 'e-icon-picker';
 import 'e-icon-picker/dist/index.css';//基础样式
 import 'e-icon-picker/dist/main.css'; //fontAwesome 图标库样式
 Vue.use(iconPicker);
+
+import TablePev from '@/components/TablePev'
+
+
+Vue.component("table-pev", TablePev);//全局自定义组件
 // Vue.prototype.$message = Element.Message;
 Vue.config.productionTip = false
 new Vue({

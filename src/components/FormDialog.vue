@@ -61,13 +61,15 @@ export default {
         this.$refs.dialog.closeDialog();
      },
      setConf(fields,row){
+        let _fields= _.cloneDeep(fields);
         if(row){
-            for (let index = 0; index < fields.length; index++) {
+            for (let index = 0; index < _fields.length; index++) {
                 // this.row.hasOwnProperty(this.fields[index].field) 此写法报错
-                Object.prototype.hasOwnProperty.call(row, fields[index].field)&& (fields[index].val=row[fields[index].field])
+                Object.prototype.hasOwnProperty.call(row, _fields[index].field)&& (_fields[index].val=row[_fields[index].field])
             }
         }
-        this.fields=fields
+        // console.log('setConf',fields);
+        this.fields=_fields
         this.row=row
      },
      onSubmit(){

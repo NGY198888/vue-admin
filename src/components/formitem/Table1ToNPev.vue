@@ -1,26 +1,27 @@
 <template>
-    <el-form-item :label="field.label">
-            <el-select :value="val" 
-            :placeholder="field.name"
-            clearable
-            filterable
-            multiple
+    <el-form-item :label="field.label" v-if="field.show_label">
+        <table-pev 
+            :resource="field.resource"
+            :height="field.height"
+            :value="val"
+            :key="key"
+            :remote=false
             @change="change"
-            >
-            <el-option :label="kv.txt" :value="kv.id" v-for="kv in field.data" :key="kv.id"></el-option>
-            </el-select>
-            <!-- <TableView /> -->
+             />    
     </el-form-item>
+    <table-pev  v-else
+    :resource="field.resource"
+    :height="field.height"
+    :value="val"
+    :key="key"
+    :remote=false
+    @change="change"
+    /> 
 </template>
 
 <script>
-// import { mapState } from "vuex";
-// import TableView from '../TableView';
 export default {
   name: 'Table1ToNPev',
-  components:{
-    //   TableView,
-  },
   model:{
       prop:'val',
       event:'change'
@@ -31,8 +32,16 @@ export default {
   },
   methods:{
        change(value){
-         this.$emit('change',value)
+         this.$emit('change',JSON.parse(JSON.stringify(value)))
        }
+  },
+  computed: {
+      key:(vm)=>{
+          return `${ Math.ceil(Math.random()*5)}${vm.field.resource}`
+      }
+  },
+  mounted(){
+        console.log('Table1ToNPev');
   }
 }
 </script>
