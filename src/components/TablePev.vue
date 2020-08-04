@@ -17,6 +17,7 @@
         <el-table :data="remote?tableData:value"
         class='table-table'
          @row-dblclick="rowDblclick"
+         @selection-change="selectionChange"
         border
         height="1000"
         style="width: 100%"
@@ -132,6 +133,7 @@ export default {
       tableStyle.height=this.height+'px'
     }
     return {
+      selection:[],
       tableStyle:tableStyle,
       selected_row:[],
       now_btn:{},
@@ -255,6 +257,9 @@ export default {
             return (JSON.stringify(el)==row_json) ? new_row : el;
         })
     },
+    selectionChange(selection){
+         this.selection=selection;
+    },
     submitAPI(btn,row){
       if(this.remote){
           let  id=row?row[this.gridConfig.key]:''
@@ -265,19 +270,30 @@ export default {
               type: 'warning'
             }).then(() => {
               if(btn.action=='Delete'){
-                    request.delete( `/${this.resource}/${id}`).then(()=>{
-                        this.$message.success('删除成功');
-                        this.query()
-                    })
+                if(btn.isMultSelect){
+                  let key=this.gridConfig.key
+                  let ids= _.map(this.selection,function(el){
+                      return el[key];
+                  })
+                   request.post(`/${this.resource}/deleteAll`,{ids}).then(()=>{
+                      this.$message.success('删除成功');
+                      this.query()
+                  })
                 }else{
-                    let query={
-                      id:id,
-                      where:this.gridConfig.tableSearchFields,
-                    }
-                    request.post( `/${this.resource}/${btn.commit_url}`,{ params:{query:JSON.stringify(query)}}).then(()=>{
-                        this.query()
-                    })
+                  request.delete( `/${this.resource}/${id}`).then(()=>{
+                    this.$message.success('删除成功');
+                    this.query()
+                  })
                 }
+              }else{
+                  let query={
+                    id:id,
+                    where:this.gridConfig.tableSearchFields,
+                  }
+                  request.post( `/${this.resource}/${btn.commit_url}`,{ params:{query:JSON.stringify(query)}}).then(()=>{
+                      this.query()
+                  })
+              }
             })
           }
       }else{
