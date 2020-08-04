@@ -304,14 +304,24 @@ export default {
               //   this.tableData.push(row)
               //   break;
               case 'Delete':
-                _.remove(value, function(n) {
-                  return JSON.stringify(n)==JSON.stringify(row)
-                });
+                this.deleteLocal(this.now_btn,value,row)
                 break;
            }
            this.emitChange(value);
       }
     
+    },
+    deleteLocal(btn,value,row){
+      let selection=this.selection
+      if(btn.isMultSelect){
+         _.remove(value, function(n) {
+           return selection.find(s=>JSON.stringify(n)==JSON.stringify(s))
+        });
+      }else{
+        _.remove(value, function(n) {
+          return JSON.stringify(n)==JSON.stringify(row)
+        });
+      }
     },
     initView(){
        request.get(this.grid_conf_api).then((rs)=>{
