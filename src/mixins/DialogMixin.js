@@ -4,7 +4,7 @@ export default {
            this.$emit("onOk")
         },
         onCancel(){
-            console.log(this.dataHadChange);
+            // console.log(this.dataHadChange);
            if(this.needConfirm&&this.dataHadChange){
                 this.$confirm('此操作将不保存修改的数据, 是否继续?', '提示',
                 {

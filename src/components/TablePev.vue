@@ -166,7 +166,7 @@ export default {
           //通过上边计算得到的table高度的value值，减去table表格的header高度，剩下的通过dom节点直接强行赋给table表格的body
           let  value=tabWarp[0].clientHeight;
           let head_h=header[0].clientHeight
-          console.log("calcHeightx",value,head_h,(value - head_h));
+          // console.log("calcHeightx",value,head_h,(value - head_h));
           wapper[0].style.height = (value - head_h) + 'px';
         }, 300)
     },
@@ -210,7 +210,7 @@ export default {
       }
     },
     onFormSubmit(fields,row,form){
-       console.log('onFormSubmit',this.now_btn,fields,row,form);
+      //  console.log('onFormSubmit',this.now_btn,fields,row,form);
         if(this.remote){
             if(this.now_btn.action=='Add'){
             
@@ -231,19 +231,29 @@ export default {
                 })
             }
          }else{
-            console.log('row_new');
+            // console.log('row_new');
+           let value= _.cloneDeep(this.value)||[]
            switch(this.now_btn.action){
               case 'Add':
-                this.value.push(form)
+                value.push(form)
                 break;
               case 'Edit':
-                //直接修改引用
-                Object.assign(row,form)
+                //不能直接修改引用，因为this.value是props，只能由外部改变
+                value=this.change_row(value,row,form);
                 break;
            }
-            this.emitChange();
+            this.emitChange(value);
          }
        this.$refs['dialogKey'].closeDialog();
+    },
+    change_row(value,row,form){
+        let new_row={};
+        const row_json= JSON.stringify(row)
+        Object.assign(new_row,row)
+        Object.assign(new_row,form)
+        return _.map(value,function(el){
+            return (JSON.stringify(el)==row_json) ? new_row : el;
+        })
     },
     submitAPI(btn,row){
       if(this.remote){
@@ -272,17 +282,18 @@ export default {
           }
       }else{
         console.log('Delete');
+        let value= _.cloneDeep(this.value)
            switch(this.now_btn.action){
-              case 'Add':
-                this.tableData.push(row)
-                break;
+              // case 'Add':
+              //   this.tableData.push(row)
+              //   break;
               case 'Delete':
-                _.remove(this.value, function(n) {
+                _.remove(value, function(n) {
                   return JSON.stringify(n)==JSON.stringify(row)
                 });
                 break;
            }
-           this.emitChange();
+           this.emitChange(value);
       }
     
     },
@@ -291,7 +302,6 @@ export default {
            this.gridConfig=Object.assign(this.gridConfig,rs.data)
            if(!this.remote){
                this.gridConfig.pagination=false
-               this.value=this.value||[]
            }
            this.query()
        })
@@ -332,8 +342,8 @@ export default {
             })
       }
     },
-    emitChange(){
-        this.$emit('change',this.value);
+    emitChange(value){
+        this.$emit('change',value);
     },
     getShowRow(row){
       return  new Promise((resolve)=>{

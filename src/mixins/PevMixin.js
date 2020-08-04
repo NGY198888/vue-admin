@@ -5,7 +5,7 @@ export default {
     },
     methods:{
         dataChange(){
-            console.log('数据变动');
+            // console.log('数据变动');
             this.$emit('dataChange')
         }
     }
