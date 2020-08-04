@@ -29,9 +29,9 @@
 
 <script>
 import Dialog from './Dialog';
-// import Form from './Form';
+import FormMixin from '@/mixins/FormMixin';
 import TabsForm from './TabsForm';
-import _ from 'lodash';
+// import _ from 'lodash';
 export default {
   name: 'FormDialog',
   inheritAttrs: false,
@@ -59,45 +59,46 @@ export default {
   },
   methods:{
      openDialog(){
+        this.dataHadChange=false
         this.$refs.dialog.openDialog();
      },
      closeDialog(){
         this.$refs.dialog.closeDialog();
      },
-     setConf(fields,row){
-        let _fields= _.cloneDeep(fields);
-        if(row){
-            for (let index = 0; index < _fields.length; index++) {
-                // this.row.hasOwnProperty(this.fields[index].field) 此写法报错
-                Object.prototype.hasOwnProperty.call(row, _fields[index].field)&& (_fields[index].val=row[_fields[index].field])
-            }
-        }
-        this.fields=_fields
-        this.row=row
-     },
+    //  setConf(fields,row){
+    //     let _fields= _.cloneDeep(fields);
+    //     if(row){
+    //         for (let index = 0; index < _fields.length; index++) {
+    //             // this.row.hasOwnProperty(this.fields[index].field) 此写法报错
+    //             Object.prototype.hasOwnProperty.call(row, _fields[index].field)&& (_fields[index].val=row[_fields[index].field])
+    //         }
+    //     }
+    //     this.fields=_fields
+    //     this.row=row
+    //  },
      onSubmit(){
           let after_form= this.getForm(this.fields)
           this.$emit('onSubmit',this.fields,this.row,after_form)
      },
-     getForm(fields){
-        let form= _.reduce(fields,function(obj,field) {
-          let val= field.val;
-          switch(field.type){
-              case 'switch':
-                val=parseInt(val);
-              break;
-          }
-          obj[field.field] =val
-          return obj;
-        },{});
-        return form;
-     }
-     ,dataChange(){
-        this.dataHadChange=true
-     },
-     onCancel(){
-       this.dataHadChange=false
-     }
+    //  getForm(fields){
+    //     let form= _.reduce(fields,function(obj,field) {
+    //       let val= field.val;
+    //       switch(field.type){
+    //           case 'switch':
+    //             val=parseInt(val);
+    //           break;
+    //       }
+    //       obj[field.field] =val
+    //       return obj;
+    //     },{});
+    //     return form;
+    //  }
+    //  ,dataChange(){
+    //     this.dataHadChange=true
+    //  },
+    //  onCancel(){
+    //    this.dataHadChange=false
+    //  }
   },
   computed:{
      key(){
@@ -115,8 +116,8 @@ export default {
           let _height=isNaN(vm.height)?vm.height:vm.height+"px";
           return `calc( (95vh - ${_height} ) / 2 )`
       },
-  }
-//   mixins:[DialogMixin]
+  },
+  mixins:[FormMixin]
   
 }
 </script>
