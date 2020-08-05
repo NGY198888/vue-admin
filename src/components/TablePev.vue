@@ -185,7 +185,7 @@ export default {
     //   console.log('rowDblclick');
        let btn= this.gridConfig.buttons.find(btn=>btn.action=='Show')
        if(btn)
-           this.btnLogic(btn,row);
+           this.rowBtnClick(row,btn);
     },
     rowBtnClick(row,btn) {
       if(this.remote){
@@ -205,7 +205,8 @@ export default {
     //   console.log(btn,row);
       this.now_btn=btn;
       if(btn.actionType=='FORM'){
-          btn.action=='Show'? this.$refs['dialogKey'].setConf(this.gridConfig.viewFields,row):this.$refs['dialogKey'].setConf(this.getFormFields(),row);
+          btn.action=='Show'? this.$refs['dialogKey'].setConf(this.gridConfig.viewFields,row)
+          :this.$refs['dialogKey'].setConf(this.getFormFields(),row);
           this.$refs['dialogKey'].openDialog();
       }else{
            this.submitAPI(btn,row)
