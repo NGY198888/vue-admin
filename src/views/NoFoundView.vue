@@ -1,7 +1,6 @@
 <template>
    <main class="container">
-   <span class="particle" v-for="n in 40" :key="n">4</span>
-   <span class="particle" v-for="n in 40" :key="n">0</span>
+   <span class="particle" v-for="n in 80" :key="n">{{n%2==0?4:0}}</span>
   <article class="content">
     <p>该死的火星人,</p>
     <p><strong>404</strong> 错误提示。</p>

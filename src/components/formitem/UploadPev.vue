@@ -9,6 +9,7 @@
             :on-change="change"
             :on-exceed="handleExceed"
             :limit="1"
+            :headers="headers"
             :file-list="fileList">
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -18,6 +19,7 @@
 
 <script>
 import PevMixin from '@/mixins/PevMixin';
+import  store from "@/store";
 export default {
   name: 'UploadPev',
   model:{
@@ -31,6 +33,7 @@ export default {
    data() {
        console.log(process.env);
       return {
+         headers:{Authorization:'Bearer ' + store.state.auth.token},
          upLoadUrl: process.env.VUE_APP_UPLOAD_URL,
          fileList:(this.val?[this.val]: [])
       };
