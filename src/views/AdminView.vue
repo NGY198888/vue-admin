@@ -9,9 +9,9 @@
     </el-aside>
     <el-container>
       <el-header class="header">
-          <span style="margin-right: 50px">{{user.username}}</span>
+         
           <el-dropdown @command="handleCommand">
-            <i class="el-icon-setting" style="margin-right: 15px"></i>
+           <el-tag type="info" disable-transitions effect="dark" style="margin-right: 50px"> <i class="el-icon-user-solid" style="margin-right: 5px"></i>{{user.username}}</el-tag>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item :icon="dd.icon" :command="dd.command" v-for=" dd in dropdownArr" :key="dd.command">{{dd.name}}</el-dropdown-item>
               <el-dropdown-item icon="el-icon-eleme" command="logout">退出系统</el-dropdown-item>

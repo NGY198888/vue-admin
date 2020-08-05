@@ -1,5 +1,5 @@
 <template>
-<el-card class="form_warp">
+<el-card class="form_warp" shadow="hover">
     <div class="btns">
         <el-button type="warning" @click="onReset" >重 置</el-button>
         <el-button type="primary" @click="onSave"  >保 存</el-button>
