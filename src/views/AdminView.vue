@@ -54,7 +54,7 @@ export default {
             name:'账号设置',
             command:'settingUser',
             icon:'el-icon-user-solid',
-            route:'form/user.update'
+            route:'/form/users'
           }
 
         ]
