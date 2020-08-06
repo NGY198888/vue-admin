@@ -136,6 +136,7 @@ export default {
       selection:[],
       tableStyle:tableStyle,
       selected_row:[],
+      row:null,
       now_btn:{},
       gridConfig:{
         sortStr:null,
@@ -182,12 +183,14 @@ export default {
     },
     //双击行
     rowDblclick(row){
+      this.row=row;
     //   console.log('rowDblclick');
        let btn= this.gridConfig.buttons.find(btn=>btn.action=='Show')
        if(btn)
            this.rowBtnClick(row,btn);
     },
     rowBtnClick(row,btn) {
+      this.row=row;
       if(this.remote){
         this.getShowRow(row).then((showRow)=>{
             this.btnLogic(btn,showRow);
@@ -202,20 +205,38 @@ export default {
       this.btnLogic(btn,{});
     },
     btnLogic(btn,row){
-    //   console.log(btn,row);
       this.now_btn=btn;
       if(btn.actionType=='FORM'){
           btn.action=='Show'? this.$refs['dialogKey'].setConf(this.gridConfig.viewFields,row)
           :this.$refs['dialogKey'].setConf(this.getFormFields(),row);
           this.$refs['dialogKey'].openDialog();
       }else{
-           this.submitAPI(btn,row)
+          this.remote? this.submitAPI(btn,row):this.submitLocal(row)
       }
+    },
+    newPostPrams(){
+        let  id=this.row?this.row[this.gridConfig.key]:''
+        let prams={
+          row:this.row,
+          where:this.gridConfig.tableSearchFields,
+          id:id,
+          ids:this.getCheckedIds()
+        }
+        return prams;
     },
     onFormSubmit(fields,row,form){
       //  console.log('onFormSubmit',this.now_btn,fields,row,form);
         if(this.remote){
-            if(this.now_btn.action=='Add'){
+              if(this.now_btn.commit_url)
+              {
+                let prams= this.newPostPrams()
+                prams.form=prams,
+                request.post( `/custom/${this.resource}/${this.now_btn.commit_url}`,prams).then(()=>{
+                    this.$message.success('操作成功');
+                    this.query()
+                })
+            }
+            else if(this.now_btn.action=='Add'){
             
                 request.post( `/${this.resource}/`,form).then(()=>{
                     this.$message.success('添加成功');
@@ -227,25 +248,8 @@ export default {
                     this.query()
                 })
             }
-            else{
-                form= Object.assign(form,{fields,row})
-                request.post( `/${this.resource}/${this.now_btn.commit_url}`,form).then(()=>{
-                    this.query()
-                })
-            }
          }else{
-            // console.log('row_new');
-           let value= _.cloneDeep(this.value)||[]
-           switch(this.now_btn.action){
-              case 'Add':
-                value.push(form)
-                break;
-              case 'Edit':
-                //不能直接修改引用，因为this.value是props，只能由外部改变
-                value=this.change_row(value,row,form);
-                break;
-           }
-            this.emitChange(value);
+            this.submitLocal(row,fields,form)
          }
        this.$refs['dialogKey'].closeDialog();
     },
@@ -261,56 +265,63 @@ export default {
     selectionChange(selection){
          this.selection=selection;
     },
+    getCheckedIds(){
+      let key=this.gridConfig.key
+      let  ids= _.map(this.selection,function(el){
+          return el[key];
+      })
+      return ids;
+    },
+    submitLocal(row,fields,form){
+        let value= _.cloneDeep(this.value||[])
+        switch(this.now_btn.action){
+            case 'Add':
+            value.push(form)
+            break;
+          case 'Edit':
+            //不能直接修改引用，因为this.value是props，只能由外部改变
+            value=this.change_row(value,row,form);
+            break;
+          case 'Delete':
+            this.deleteLocal(this.now_btn,value,row)
+            break;
+        }
+        this.emitChange(value);
+    },
     submitAPI(btn,row){
-      if(this.remote){
-          let  id=row?row[this.gridConfig.key]:''
-          if(btn.confirmTips){
-            this.$confirm(btn.confirmTips, '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              if(btn.action=='Delete'){
-                if(btn.isMultSelect){
-                  let key=this.gridConfig.key
-                  let ids= _.map(this.selection,function(el){
-                      return el[key];
-                  })
-                   request.post(`/${this.resource}/deleteAll`,{ids}).then(()=>{
-                      this.$message.success('删除成功');
-                      this.query()
-                  })
-                }else{
-                  request.delete( `/${this.resource}/${id}`).then(()=>{
-                    this.$message.success('删除成功');
-                    this.query()
-                  })
-                }
-              }else{
-                  let query={
-                    id:id,
-                    where:this.gridConfig.tableSearchFields,
-                  }
-                  request.post( `/${this.resource}/${btn.commit_url}`,{ params:{query:JSON.stringify(query)}}).then(()=>{
-                      this.query()
-                  })
-              }
-            })
-          }
+      if(btn.confirmTips){
+        this.$confirm(btn.confirmTips, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.submitAPIConfirm(btn,row)
+        })
       }else{
-        console.log('Delete');
-        let value= _.cloneDeep(this.value)
-           switch(this.now_btn.action){
-              // case 'Add':
-              //   this.tableData.push(row)
-              //   break;
-              case 'Delete':
-                this.deleteLocal(this.now_btn,value,row)
-                break;
-           }
-           this.emitChange(value);
+          this.submitAPIConfirm(btn,row)
       }
-    
+    },
+    submitAPIConfirm(btn,row){
+      
+      if(btn.commit_url){
+        let prams= this.newPostPrams()
+        request.post(`/custom/${this.resource}/${btn.commit_url}`,prams).then(()=>{
+              this.$message.success('操作成功');
+              this.query()
+        })
+      }
+      else if(btn.action=='Delete'){
+          let  id=row?row[this.gridConfig.key]:''
+          btn.isMultSelect?
+          request.post(`/${this.resource}/deleteAll`,{ids:this.getCheckedIds()}).then(()=>{
+            this.$message.success('删除成功');
+            this.query()
+          })
+          : request.delete( `/${this.resource}/${id}`).then(()=>{
+              this.$message.success('删除成功');
+              this.query()
+          })
+      }
     },
     deleteLocal(btn,value,row){
       let selection=this.selection
