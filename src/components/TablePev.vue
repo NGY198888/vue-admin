@@ -18,6 +18,9 @@
         class='table-table'
          @row-dblclick="rowDblclick"
          @selection-change="selectionChange"
+         @summary-method="getSummaries"
+        :show-summary="showSummary"
+        :row-key="gridConfig.key"
         border
         height="1000"
         style="width: 100%"
@@ -83,17 +86,18 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
 import TableSearch from '@/components/TableSearch';
 import TablePagination from '@/components/TablePagination';
 import TableBtn from '@/components/TableBtn';
-// import DialogView from './DialogView';
 import FormDialog from '@/components/FormDialog';
+import ColumnTpl from '@/components/tpl/ColumnTpl';
 
 import request from '@/utils/request';
 import   '@/styles/TableView.scss';
-import _ from 'lodash';
-import ColumnTpl from '@/components/tpl/ColumnTpl';
+import TableBtnMixin from '@/mixins/TableBtnMixin';
+import TableCommMixin from '@/mixins/TableCommMixin';
+
+// import _ from 'lodash';
 export default {
   name: 'table-pev',
   props: {
@@ -158,183 +162,6 @@ export default {
     }
   },
   methods:{
-    calcHeightx() {
-        let tabWarp = window.document.getElementsByClassName('table-table');
-        //通过原生方法，获取dom节点的高度------获取element-ui table表格body的元素
-        let wapper = window.document.getElementsByClassName('el-table__body-wrapper');
-        //通过原生方法，获取dom节点的高度------获取element-ui table表格header的元素
-        let header = window.document.getElementsByClassName('el-table__header-wrapper');
-        //必须加延时，要不然赋不上去值
-        setTimeout(() => {
-          //通过上边计算得到的table高度的value值，减去table表格的header高度，剩下的通过dom节点直接强行赋给table表格的body
-          let  value=tabWarp[0].clientHeight;
-          let head_h=header[0].clientHeight
-          // console.log("calcHeightx",value,head_h,(value - head_h));
-          wapper[0].style.height = (value - head_h) + 'px';
-        }, 300)
-    },
-    sizeChange(pageSize){
-      this.gridConfig.pageSize=pageSize
-      this.query()
-    },
-     currentChange(current){
-        this.gridConfig.page=current;
-        this.query()
-    },
-    //双击行
-    rowDblclick(row){
-      this.row=row;
-    //   console.log('rowDblclick');
-       let btn= this.gridConfig.buttons.find(btn=>btn.action=='Show')
-       if(btn)
-           this.rowBtnClick(row,btn);
-    },
-    rowBtnClick(row,btn) {
-      this.row=row;
-      if(this.remote){
-        this.getShowRow(row).then((showRow)=>{
-            this.btnLogic(btn,showRow);
-        })
-      }else{
-         this.btnLogic(btn,row);
-      }
-     
-      
-    },
-    tableBtnClick(btn){
-      this.btnLogic(btn,{});
-    },
-    btnLogic(btn,row){
-      this.now_btn=btn;
-      if(btn.actionType=='FORM'){
-          btn.action=='Show'? this.$refs['dialogKey'].setConf(this.gridConfig.viewFields,row)
-          :this.$refs['dialogKey'].setConf(this.getFormFields(),row);
-          this.$refs['dialogKey'].openDialog();
-      }else{
-          this.remote? this.submitAPI(btn,row):this.submitLocal(row)
-      }
-    },
-    newPostPrams(){
-        let  id=this.row?this.row[this.gridConfig.key]:''
-        let prams={
-          row:this.row,
-          where:this.gridConfig.tableSearchFields,
-          id:id,
-          ids:this.getCheckedIds()
-        }
-        return prams;
-    },
-    onFormSubmit(fields,row,form){
-      //  console.log('onFormSubmit',this.now_btn,fields,row,form);
-        if(this.remote){
-              if(this.now_btn.commit_url)
-              {
-                let prams= this.newPostPrams()
-                prams.form=prams,
-                request.post( `/custom/${this.resource}/${this.now_btn.commit_url}`,prams).then(()=>{
-                    this.$message.success('操作成功');
-                    this.query()
-                })
-            }
-            else if(this.now_btn.action=='Add'){
-            
-                request.post( `/${this.resource}/`,form).then(()=>{
-                    this.$message.success('添加成功');
-                    this.query()
-                })
-            }else if(this.now_btn.action=='Edit'){
-                request.put( `/${this.resource}/${row[this.gridConfig.key]}`,form).then(()=>{
-                    this.$message.success('修改成功');
-                    this.query()
-                })
-            }
-         }else{
-            this.submitLocal(row,fields,form)
-         }
-       this.$refs['dialogKey'].closeDialog();
-    },
-    change_row(value,row,form){
-        let new_row={};
-        const row_json= JSON.stringify(row)
-        Object.assign(new_row,row)
-        Object.assign(new_row,form)
-        return _.map(value,function(el){
-            return (JSON.stringify(el)==row_json) ? new_row : el;
-        })
-    },
-    selectionChange(selection){
-         this.selection=selection;
-    },
-    getCheckedIds(){
-      let key=this.gridConfig.key
-      let  ids= _.map(this.selection,function(el){
-          return el[key];
-      })
-      return ids;
-    },
-    submitLocal(row,fields,form){
-        let value= _.cloneDeep(this.value||[])
-        switch(this.now_btn.action){
-            case 'Add':
-            value.push(form)
-            break;
-          case 'Edit':
-            //不能直接修改引用，因为this.value是props，只能由外部改变
-            value=this.change_row(value,row,form);
-            break;
-          case 'Delete':
-            this.deleteLocal(this.now_btn,value,row)
-            break;
-        }
-        this.emitChange(value);
-    },
-    submitAPI(btn,row){
-      if(btn.confirmTips){
-        this.$confirm(btn.confirmTips, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.submitAPIConfirm(btn,row)
-        })
-      }else{
-          this.submitAPIConfirm(btn,row)
-      }
-    },
-    submitAPIConfirm(btn,row){
-      
-      if(btn.commit_url){
-        let prams= this.newPostPrams()
-        request.post(`/custom/${this.resource}/${btn.commit_url}`,prams).then(()=>{
-              this.$message.success('操作成功');
-              this.query()
-        })
-      }
-      else if(btn.action=='Delete'){
-          let  id=row?row[this.gridConfig.key]:''
-          btn.isMultSelect?
-          request.post(`/${this.resource}/deleteAll`,{ids:this.getCheckedIds()}).then(()=>{
-            this.$message.success('删除成功');
-            this.query()
-          })
-          : request.delete( `/${this.resource}/${id}`).then(()=>{
-              this.$message.success('删除成功');
-              this.query()
-          })
-      }
-    },
-    deleteLocal(btn,value,row){
-      let selection=this.selection
-      if(btn.isMultSelect){
-         _.remove(value, function(n) {
-           return selection.find(s=>JSON.stringify(n)==JSON.stringify(s))
-        });
-      }else{
-        _.remove(value, function(n) {
-          return JSON.stringify(n)==JSON.stringify(row)
-        });
-      }
-    },
     initView(){
        request.get(this.grid_conf_api).then((rs)=>{
            this.gridConfig=Object.assign(this.gridConfig,rs.data)
@@ -344,91 +171,20 @@ export default {
            this.query()
        })
     },
-    sortChange({prop, order }){
-        let orderStr=order=="descending"?"desc":"asc"
-        this.gridConfig.sortStr=`${prop} ${orderStr}`;
-        this.gridConfig.page=1;
-        this.query()
-    },
-    onSearch(fields){
-        this.gridConfig.tableSearchFields=fields;
-        this.query()
-    },
-    getFormFields(){
-       if(!this.now_btn.ui_url){
-          return this.gridConfig.formFields;
-       }else{
-          request.get( `/${this.resource}/${this.now_btn.ui_url}`).then((rs)=>{
-              return rs.data;  
-          })
-       }
-    },
-    query(){
-      if(this.remote){
-            let query={
-                page:this.gridConfig.page,
-                perPage:this.gridConfig.pageSizes,
-                sort:this.gridConfig.sortStr,
-                where:this.gridConfig.tableSearchFields,
-            }
-            request.get( `/${this.resource}`,{ params:{query:JSON.stringify(query)}}).then((rs)=>{
-                this.gridConfig.total=rs.data.total
-                //  this.gridConfig.pageSize=rs.data.perPage
-                this.gridConfig.page=rs.data.page
-                this.tableData=rs.data.data
-                    
-            })
-      }
-    },
     emitChange(value){
         this.$emit('change',value);
     },
-    getShowRow(row){
-      return  new Promise((resolve)=>{
-        request.get(`/${this.resource}/${row[this.gridConfig.key]}`).then((rs)=>{
-              resolve(rs.data);  
-        })
-      })
-    }
+    
   },
   computed: {
-    // mixData:(vm)=>{
-    //   console.log('mixData',vm.value);
-    //     return vm.value?vm.value:vm.tableData
-    // },
-    grid_conf_api(){
-      return `/${this.resource}/grid`
-    },
-    grid_data_api(){
-      return `/${this.resource}/index`
-    },
-    form_conf_api(){
-      return `/${this.resource}/form`
-    },
-    view_conf_api(){
-      return `/${this.resource}/view`
-    },
-    table_buttons:(vm)=>{
-      return  _.filter(vm.gridConfig.buttons, ['position', 'Table']);
-    },
-    row_buttons:(vm)=>{
-      return  _.filter(vm.gridConfig.buttons, ['position', 'Row']);
-    },
-    row_buttons_length:(vm)=>{
-       return vm.row_buttons.length*90
-    }
-    ,dialogKey:()=>{
-          return `${ Math.ceil(Math.random()*25)}`
-      }
+   
   },
   created () {
-    this.initView();
+    
   },
   mounted(){
-    window.addEventListener('resize', () => {
-      this.calcHeightx();
-    });
-    this.calcHeightx();
-  }
+   
+  },
+  mixins:[TableBtnMixin,TableCommMixin]
 }
 </script>
