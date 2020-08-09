@@ -29,7 +29,13 @@ export default {
   },
   props: {
      field:Object,
-     val:[Array,null]
+     val:{
+        type:[Array,null],
+        default: function () {
+          return []
+        },
+        required:false,
+      } ,
   },
   methods:{
        change(value){

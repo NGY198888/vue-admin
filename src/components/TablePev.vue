@@ -2,7 +2,7 @@
     <div class='table-v'
     :style="tableStyle">
         <!-- 搜索 -->
-        <div class="table-search" style="width:100%;margin-bottom:8px;" v-if="gridConfig.tableSearchFields.length>0">
+        <div class="table-search" style="width:100%;margin-bottom:8px;" v-if="remote&&gridConfig.tableSearchFields.length>0">
             <table-search
             :fields="gridConfig.tableSearchFields"
             @onSearch="onSearch"
@@ -97,7 +97,7 @@ import   '@/styles/TableView.scss';
 import TableBtnMixin from '@/mixins/TableBtnMixin';
 import TableCommMixin from '@/mixins/TableCommMixin';
 
-// import _ from 'lodash';
+import _ from 'lodash';
 export default {
   name: 'table-pev',
   props: {
@@ -167,6 +167,7 @@ export default {
     initView(){
        request.get(this.grid_conf_api).then((rs)=>{
            this.gridConfig=Object.assign(this.gridConfig,rs.data)
+           this.filterBtns()
            if(!this.remote){
                this.gridConfig.pagination=false
            }
@@ -176,7 +177,16 @@ export default {
     emitChange(value){
         this.$emit('change',value);
     },
-    
+    /**
+     * 过滤按钮
+     */
+    filterBtns(){
+        if(!this.remote){
+          //数组过滤 在做为表格字段的时候，只能出现一下常规的crud按钮，如有需要可以进一步做成后端配置
+           this.gridConfig.buttons=_.filter(this.gridConfig.buttons
+           , btn=>[ 'Add','Edit','Delete'].find(item=>item==btn.action));
+        }
+    }
   },
   computed: {
    
