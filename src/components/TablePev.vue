@@ -2,7 +2,7 @@
     <div class='table-v'
     :style="tableStyle">
         <!-- 搜索 -->
-        <div class="table-search" style="width:100%;margin-bottom:8px;" v-if="gridConfig.pagination">
+        <div class="table-search" style="width:100%;margin-bottom:8px;" v-if="gridConfig.tableSearchFields.length>0">
             <table-search
             :fields="gridConfig.tableSearchFields"
             @onSearch="onSearch"
@@ -157,6 +157,8 @@ export default {
         table:'',
         key:'id',
         pagination:true,
+        pidField:null,
+        lazy:false
       },
       tableData:[],
     }

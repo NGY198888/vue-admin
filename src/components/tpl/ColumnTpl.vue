@@ -1,5 +1,4 @@
 <template>
-<div>
     <el-tag
     :type="tagType"
     disable-transitions
@@ -8,8 +7,6 @@
     <span v-else>
       {{label}}
     </span>
-</div>
-  
 </template>
 
 
