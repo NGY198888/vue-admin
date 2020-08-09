@@ -96,6 +96,7 @@ import request from '@/utils/request';
 import   '@/styles/TableView.scss';
 import TableBtnMixin from '@/mixins/TableBtnMixin';
 import TableCommMixin from '@/mixins/TableCommMixin';
+import TreeMixin from '@/mixins/TreeMixin';
 
 import _ from 'lodash';
 export default {
@@ -197,6 +198,6 @@ export default {
   mounted(){
    
   },
-  mixins:[TableBtnMixin,TableCommMixin]
+  mixins:[TableBtnMixin,TableCommMixin,TreeMixin]
 }
 </script>
