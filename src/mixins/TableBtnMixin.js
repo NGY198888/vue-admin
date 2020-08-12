@@ -32,9 +32,16 @@ export default {
         btnLogic(btn,row){
           this.now_btn=btn;
           if(btn.actionType=='FORM'){
-              btn.action=='Show'? this.$refs['dialogKey'].setConf(this.gridConfig.viewFields,row)
-              :this.$refs['dialogKey'].setConf(this.getFormFields(),row);
+            if(btn.action=='Show'){
+              this.$refs['dialogKey'].setConf(this.gridConfig.viewFields,row)
               this.$refs['dialogKey'].openDialog();
+            }else{
+              this.getFormFields().then((fields)=>{
+                this.$refs['dialogKey'].setConf(fields,row)
+                this.$refs['dialogKey'].openDialog();
+              });
+            }
+             
           }else{
               this.remote? this.submitAPI(btn,row):this.submitLocal(row)
           }
@@ -61,10 +68,11 @@ export default {
             if(this.remote){
                   if(this.now_btn.commit_url)
                   {
-                    let prams= this.newPostPrams()
-                    prams.form=prams,
-                    request.post( `/custom/${this.resource}/${this.now_btn.commit_url}`,prams).then(()=>{
-                        this.$message.success('操作成功');
+                    let parms= this.newPostPrams()
+                    parms.form=form
+                    request.post( `/custom/${this.resource}/${this.now_btn.commit_url}`,parms).then((rs)=>{
+                        let {message='操作成功'}=rs.data
+                        this.$message.success(message);
                         this.query()
                     })
                 }
@@ -127,8 +135,9 @@ export default {
           
           if(btn.commit_url){
             let prams= this.newPostPrams()
-            request.post(`/custom/${this.resource}/${btn.commit_url}`,prams).then(()=>{
-                  this.$message.success('操作成功');
+            request.post(`/custom/${this.resource}/${btn.commit_url}`,prams).then((rs)=>{
+                  let {message='操作成功'}=rs.data
+                  this.$message.success(message);
                   this.query()
             })
           }
@@ -157,18 +166,22 @@ export default {
             });
           }
         },
-        getFormFields(){
-            if(!this.now_btn.ui_url){
-               return this.gridConfig.formFields;
-            }else{
-               request.get( `/${this.resource}/${this.now_btn.ui_url}`).then((rs)=>{
-                   return rs.data;  
-               })
-            }
+       getFormFields(){
+           let that=this
+           return  new Promise((resolve)=>{
+                if(!that.now_btn.ui_url){
+                  resolve(that.gridConfig.formFields);  
+                }else{
+                    request.post( `/custom/${that.resource}/${that.now_btn.ui_url}`).then((rs)=>{
+                      resolve(rs.data.fields);  
+                    })
+                } 
+            }) 
          },
         getShowRow(row){
+          let that=this
         return  new Promise((resolve)=>{
-            request.get(`/${this.resource}/${row[this.gridConfig.key]}`).then((rs)=>{
+            request.get(`/${that.resource}/${row[that.gridConfig.key]}`).then((rs)=>{
                 resolve(rs.data);  
             })
         })

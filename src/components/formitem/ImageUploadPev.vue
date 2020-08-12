@@ -2,17 +2,22 @@
     <el-form-item :label="field.label">
             <el-upload
             class="avatar-uploader"
-            :show-file-list="false"
             :before-upload="beforeUpload"
             :action="upLoadUrl"
             :on-remove="change"
             :multiple=false
             :on-change="change"
             :on-exceed="handleExceed"
-            :headers="headers">
+            :headers="headers"
+            list-type="picture"
+            :on-preview="handlePictureCardPreview"
+            >
             <img v-if="val.url" :src="val.url" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
     </el-form-item>
 </template>
 
@@ -32,13 +37,18 @@ export default {
    data() {
        console.log(process.env);
       return {
+         dialogImageUrl: '',
+         dialogVisible: false,
          headers:{Authorization:'Bearer ' + store.state.auth.token},
          upLoadUrl: process.env.VUE_APP_UPLOAD_URL,
          fileList:(this.val?[this.val]: [])
       };
     },
     methods: {
-      
+       handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
       beforeUpload(file) {
           let fileTypeOk=true;
           if(this.field.fileType){

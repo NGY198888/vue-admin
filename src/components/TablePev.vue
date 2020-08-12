@@ -2,7 +2,7 @@
     <div class='table-v'
     :style="tableStyle">
         <!-- 搜索 -->
-        <div class="table-search" style="width:100%;margin-bottom:8px;" v-if="remote&&gridConfig.tableSearchFields.length>0">
+        <div class="table-search" style="width:100%;margin-bottom:8px;" v-if="remote">
             <table-search
             :fields="gridConfig.tableSearchFields"
             @onSearch="onSearch"

@@ -2,7 +2,7 @@
    <el-container class="admin_view">
     <el-aside width="250px" class="aside">
       <div class="site_name">
-        <img :src="BASE_URL+'favicon.ico'" style="margin-right:8px;" />
+        <img :src="BASE_URL+'favicon.ico'" style="margin-right:8px; width: 35px;" />
         管理系统
         </div>
       <Menu />

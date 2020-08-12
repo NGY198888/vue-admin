@@ -17,6 +17,7 @@
            <SelectPev v-on="$listeners" :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='select'" /> 
            <IconPickerPev v-on="$listeners" :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='icon_select'" /> 
            <HiddenPev v-on="$listeners" :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='hidden'" /> 
+            <TreePev v-on="$listeners" :field="field" v-model="field.val" :key="field.field" v-else-if="field.type=='tree'" /> 
            <MultSelectPev v-on="$listeners" :field="field" v-model="field.val" :key="field.field"  v-else-if="field.type=='mult_select'"  /> 
            <Table1ToNPev v-on="$listeners" :field="field" v-model="field.val" :key="field.field"  v-else-if="field.type=='table_1_to_n'"  /> 
            <DateTimePev v-on="$listeners" :field="field" v-model="field.val" :key="field.field" v-else-if="['year','month','date','week','datetime','datetimerange','daterange','dates'].includes(field.type)"  /> 
@@ -44,6 +45,7 @@ import ImageUploadPev from './formitem/ImageUploadPev';
 import HiddenPev from './formitem/HiddenPev';
 import IconPickerPev from './formitem/IconPickerPev';
 import Table1ToNPev from './formitem/Table1ToNPev';
+import TreePev from './formitem/TreePev';
 
 export default {
   name: 'Form',
@@ -68,6 +70,7 @@ export default {
      HiddenPev,
      IconPickerPev,
      Table1ToNPev,
+     TreePev,
   },
   data () {
     return {
