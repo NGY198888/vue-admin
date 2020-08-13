@@ -6,10 +6,14 @@
             </div>
            <el-form :model="form" status-icon :rules="rules" ref="form" label-width="3rem" class="login_form">
               <el-form-item label="用户" prop="username">
-                <el-input v-model.number="form.username" class="input" clearable></el-input>
+                <el-input v-model.number="form.username" class="input" clearable
+                prefix-icon="el-icon-user-solid"
+                ></el-input>
               </el-form-item>
               <el-form-item label="密码" prop="password">
-                <el-input type="password" v-model="form.password" autocomplete="off" class="input" clearable></el-input>
+                <el-input type="password" v-model="form.password" autocomplete="off" class="input" clearable
+                prefix-icon="fa fa-eye"
+                ></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="submitForm(form)">提交</el-button>
