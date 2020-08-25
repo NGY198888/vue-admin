@@ -172,11 +172,10 @@ export default {
                   const downloadElement = document.createElement('a');
                   const href = window.URL.createObjectURL(blob);
                   let contentDisposition = res.headers['content-disposition'];  //从response的headers中获取filename, 后端response.setHeader("Content-disposition", "attachment; filename=xxxx.docx") 设置的文件名;
-                  console.log(contentDisposition);
-                  // let patt = new RegExp("filename=([^;]+\\.[^\\.;]+);*");
-                  // let result = patt.exec(contentDisposition);
-                  // let filename = decodeURI(result[1]);
-                  let filename='a.xlsx'
+                  let patt = new RegExp("filename=([^;]+\\.[^\\.;]+);*");
+                  let result = patt.exec(contentDisposition);
+                  let filename = decodeURI(result[1]);
+                  // let filename='a.xlsx'
                   downloadElement.style.display = 'none';
                   downloadElement.href = href;
                   downloadElement.download = filename ; //下载后文件名
