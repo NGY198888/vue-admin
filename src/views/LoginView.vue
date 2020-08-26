@@ -15,10 +15,10 @@
                 prefix-icon="fa fa-eye"
                 ></el-input>
               </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="submitForm(form)">提交</el-button>
-                <el-button @click="resetForm(form)">重置</el-button>
-              </el-form-item>
+              <div class="btns">
+                <el-button class="btn"  type="success" @click="submitForm(form)" icon="fa fa-sign-in">登录</el-button>
+                <el-button class="btn" type="warning" @click="resetForm(form)" icon="fa fa-refresh">重置</el-button>
+              </div>
             </el-form>
         </el-card>
     </div>
