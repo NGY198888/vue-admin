@@ -16,6 +16,7 @@
                   :action="upLoadUrl"
                   :headers="headers"
                   :on-success="onSuccess"
+                  :on-error="onError"
                   :on-progress="onProgress"
                   :show-file-list="false"
                   :file-list="fileList"
@@ -60,7 +61,8 @@ import  types from "@/store/types";
 export default {
   name: 'TableBtn',
   props: {
-     table_buttons:[Array,null]
+     table_buttons:[Array,null],
+     resource:String,
   },
   components:{
    
@@ -69,7 +71,7 @@ export default {
     return {
        import_visible:false,
         headers:{Authorization:'Bearer ' + store.state.auth.token},
-        upLoadUrl: process.env.VUE_APP_UPLOAD_URL,
+        upLoadUrl: `${process.env.VUE_APP_API_URL}${this.resource}/importXls`,
         fileList:[],
         key:Math.ceil(Math.random()*5),
     }
@@ -88,7 +90,20 @@ export default {
        ,onSuccess(){
            store.commit(types.STOP_LOADING)
            this.$message.success("导入成功");
-           this.$refs.upload.clearFiles();
+           this.$emit("onImportOk");
+           this.$refs.upload[0].clearFiles();
+           
+       }
+       ,onError(err){
+            store.commit(types.STOP_LOADING)
+            let msg=""
+            try {
+              msg=JSON.parse(err.message).message
+            } catch (error) {
+              console.log(error);
+            }
+            this.$message.error("导入失败 "+msg);
+            this.$refs.upload[0].clearFiles();
        }
        ,onProgress(){
            store.commit(types.START_LOADING)

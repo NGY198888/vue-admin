@@ -11,6 +11,8 @@
         <!-- 表格上方按钮 -->
          <TableBtn 
          @tableBtnClick="tableBtnClick"
+         :resource="resource"
+         @onImportOk="onImportOk"
          :table_buttons="table_buttons"
           />
           <!-- 表格 -->
@@ -165,6 +167,10 @@ export default {
     }
   },
   methods:{
+    //导入数据成功
+    onImportOk(){
+        this.query();
+    },
     initView(){
        request.get(this.grid_conf_api).then((rs)=>{
            this.gridConfig=Object.assign(this.gridConfig,rs.data)
