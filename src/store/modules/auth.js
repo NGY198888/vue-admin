@@ -21,12 +21,12 @@ const mutations = {
      console.log('token',token);
      state.token=token;
      LocalStore.set("token",token);
-     router.push("/")
+     window.location.href="/"
   },
   [types.auth_clean_token] (state) {
     state.token=null;
     LocalStore.set("token",null);
-    router.push("/login")
+    router.replace("login")
  },
 }
 
